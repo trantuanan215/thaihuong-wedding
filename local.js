@@ -54,6 +54,7 @@
   // Auto-scroll like the original, stopping as soon as the visitor interacts
   if (scroller) {
     var auto = true, last = performance.now();
+    window.stopAutoScroll = function () { auto = false; };
     ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(function (t) {
       scroller.addEventListener(t, function () { auto = false; }, { passive: true });
     });

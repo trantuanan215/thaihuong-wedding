@@ -1,0 +1,113 @@
+// Bottom toolbar behaviour: heart burst, jump to gift QR / RSVP form, show-hide guest messages.
+(function () {
+  var app = document.getElementById('app-view-index');
+  if (!app) return;
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+
+  function jumpTo(target, after) {
+    if (!target) return;
+    if (window.stopAutoScroll) window.stopAutoScroll();
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (after) setTimeout(after, 700);
+  }
+  function icon(paths) {
+    var svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '2');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+    paths.forEach(function (d) {
+      var p = document.createElementNS(SVG_NS, 'path');
+      p.setAttribute('d', d);
+      svg.appendChild(p);
+    });
+    return svg;
+  }
+
+  // ---------- "Bắn tim": burst of floating hearts from the button ----------
+  var layer = document.createElement('div');
+  layer.className = 'heart-layer';
+  app.appendChild(layer);
+  var COLORS = ['#ff4969', '#ff6f91', '#ff8fab', '#e63950', '#ffb3c6', '#d6336c'];
+  var HEART = 'M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.4.7-1.2 2.2-2.4 4.3-2.4 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z';
+
+  function burst(from) {
+    var a = app.getBoundingClientRect(), b = from.getBoundingClientRect();
+    var x0 = b.left + b.width / 2 - a.left, y0 = b.top - a.top;
+    for (var i = 0; i < 16; i++) {
+      var size = 14 + Math.random() * 22;
+      var svg = document.createElementNS(SVG_NS, 'svg');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('class', 'flying-heart');
+      svg.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (x0 - size / 2) + 'px;top:' + (y0 - size / 2) + 'px';
+      var p = document.createElementNS(SVG_NS, 'path');
+      p.setAttribute('d', HEART);
+      p.setAttribute('fill', COLORS[i % COLORS.length]);
+      svg.appendChild(p);
+      layer.appendChild(svg);
+
+      var rise = 260 + Math.random() * Math.min(340, y0 - 40);
+      var drift = (Math.random() - 0.5) * 260, sway = (Math.random() - 0.5) * 60;
+      var rot = (Math.random() - 0.5) * 70;
+      var anim = svg.animate([
+        { transform: 'translate(0,0) scale(.3) rotate(0deg)', opacity: 0 },
+        { transform: 'translate(' + (drift * 0.3 + sway) + 'px,' + (-rise * 0.35) + 'px) scale(1.1) rotate(' + rot / 2 + 'deg)', opacity: 1, offset: 0.25 },
+        { transform: 'translate(' + (drift * 0.7 - sway) + 'px,' + (-rise * 0.75) + 'px) scale(1) rotate(' + rot + 'deg)', opacity: 0.9, offset: 0.7 },
+        { transform: 'translate(' + drift + 'px,' + (-rise) + 'px) scale(.8) rotate(' + rot + 'deg)', opacity: 0 }
+      ], { duration: 1600 + Math.random() * 1200, delay: Math.random() * 250, easing: 'cubic-bezier(.2,.7,.4,1)', fill: 'both' });
+      anim.onfinish = (function (n) { return function () { n.remove(); }; })(svg);
+    }
+  }
+  var shoot = document.getElementById('animation-gift-preview-btn');
+  if (shoot) shoot.addEventListener('click', function () { burst(shoot); });
+
+  // ---------- Gift button: jump to the wedding-gift QR card ----------
+  var gift = document.getElementById('cinelove-gift-button');
+  var qrCard = document.querySelector('[data-node-id="JmU2ieM2Vs"]');
+  if (gift) {
+    gift.title = 'Gửi quà mừng';
+    gift.addEventListener('click', function () { jumpTo(qrCard); });
+  }
+
+  // ---------- Like button -> RSVP shortcut ----------
+  var like = document.getElementById('cinelove-like-button');
+  var rsvpName = document.querySelector('input[name="rsvp-name"]');
+  if (like) {
+    like.className = 'rsvp-shortcut';
+    like.title = 'Xác nhận tham dự';
+    like.setAttribute('aria-label', 'Xác nhận tham dự');
+    like.textContent = '';
+    like.appendChild(icon(['M8 2v4', 'M16 2v4', 'M3 10h18', 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z', 'm9 16 2 2 4-4']));
+    like.addEventListener('click', function () {
+      jumpTo(rsvpName && rsvpName.form, function () { if (rsvpName) rsvpName.focus({ preventScroll: true }); });
+    });
+  }
+
+  // ---------- Pill button: show / hide floating guest messages ----------
+  var toggle = document.querySelector('.toolbar-toggle-button');
+  var box = document.getElementById('blessing-box');
+  if (toggle && box) {
+    var oldIcon = toggle.querySelector('.icon-svg');
+    var closeIcon = icon(['M18 6 6 18', 'm6 6 12 12']);
+    var chatIcon = icon(['M21 11.5a8.4 8.4 0 0 1-9 8.3 9 9 0 0 1-3.6-.8L3 21l1.9-5A8.4 8.4 0 0 1 12 3.2a8.4 8.4 0 0 1 9 8.3z']);
+    [closeIcon, chatIcon].forEach(function (n) { n.setAttribute('class', 'icon-svg'); });
+    var hidden = false;
+    try { hidden = localStorage.getItem('gb-hidden') === '1'; } catch (e) {}
+    function render() {
+      box.classList.toggle('gb-hidden', hidden);
+      var current = toggle.querySelector('.icon-svg');
+      current.parentNode.replaceChild(hidden ? chatIcon : closeIcon, current);
+      toggle.setAttribute('aria-label', hidden ? 'Hiện lời chúc' : 'Ẩn lời chúc');
+      toggle.title = hidden ? 'Hiện lời chúc' : 'Ẩn lời chúc';
+    }
+    if (oldIcon) render();
+    toggle.addEventListener('click', function () {
+      hidden = !hidden;
+      try { localStorage.setItem('gb-hidden', hidden ? '1' : '0'); } catch (e) {}
+      render();
+    });
+  }
+})();
