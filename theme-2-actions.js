@@ -29,10 +29,15 @@
     ['groom', 'bride'].forEach(function (who) {
       var m = document.createElement('div');
       m.className = 'env-mascot ' + who;
-      var img = document.createElement('img');
-      img.src = who === 'groom' ? 'assets/mascot/thai.webp' : 'assets/mascot/huong.webp';
-      img.alt = '';
-      m.appendChild(img);
+      ['run', 'reach'].forEach(function (pose) {
+        var wrap = document.createElement('div');
+        wrap.className = 'pose-' + pose;
+        var img = document.createElement('img');
+        img.src = 'assets/mascot/' + who + '-' + pose + '.webp';
+        img.alt = '';
+        wrap.appendChild(img);
+        m.appendChild(wrap);
+      });
       pair.appendChild(m);
     });
     if (envNode) {

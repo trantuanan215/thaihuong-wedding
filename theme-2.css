@@ -8,18 +8,24 @@
 .invite-date { margin-top: 4px !important; font: 700 14px 'PlayfairDisplay', serif; letter-spacing: .18em; }
 .invite-guest { margin-top: 5px !important; font: italic 400 13px 'Signora', 'PlayfairDisplay', serif; color: #f7d774; }
 
-/* Chibi couple beside the opened envelope */
+/* Chibi couple beside the opened envelope: run sprites while moving, reaching poses while standing */
 .env-mascots { position: absolute; z-index: 5; pointer-events: none; }
-.env-mascot { position: absolute; bottom: -14px; height: 122px; width: max-content; opacity: 0; transition: transform 1.3s cubic-bezier(.25, .7, .35, 1), opacity .35s ease; }
-.env-mascot img { display: block; height: 100%; width: auto; max-width: none; filter: drop-shadow(0 5px 5px rgba(0, 0, 0, .25)); }
-.env-mascot.groom { right: calc(100% - 14px); transform: translateX(-240px); }
-.env-mascot.bride { left: calc(100% - 26px); transform: translateX(240px); }
+.env-mascot { position: absolute; bottom: -14px; height: 118px; width: max-content; opacity: 0; transition: transform 1.3s cubic-bezier(.25, .7, .35, 1), opacity .35s ease; }
+.env-mascot > div { height: 100%; }
+.env-mascot img { display: block; height: 100%; width: auto; max-width: none; filter: drop-shadow(0 5px 5px rgba(0, 0, 0, .22)); }
+.env-mascot.groom { right: calc(100% - 22px); transform: translateX(-240px); }
+.env-mascot.bride { left: calc(100% - 30px); transform: translateX(240px); }
 .env-mascots.show .env-mascot { opacity: 1; transform: none; }
 .env-mascots.show .env-mascot.bride { transition-delay: .15s; }
-.env-mascots.running .env-mascot img { animation: env-mascot-run .3s ease-in-out infinite; }
-.env-mascots.show:not(.running) .env-mascot img { animation: env-mascot-idle 1.6s ease-in-out infinite; }
-.env-mascots.show:not(.running) .env-mascot.bride img { animation-delay: .4s; }
-@keyframes env-mascot-run { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
+.env-mascot .pose-reach { display: none; }
+.env-mascots.show:not(.running) .pose-run { display: none; }
+.env-mascots.show:not(.running) .pose-reach { display: block; }
+/* face the direction of travel: bride runs in leftwards, groom runs out leftwards */
+.env-mascots.show .bride .pose-run, .env-mascots:not(.show) .groom .pose-run { transform: scaleX(-1); }
+.env-mascots.running .pose-run img { animation: env-mascot-run .3s ease-in-out infinite; }
+.env-mascots.show:not(.running) .pose-reach img { animation: env-mascot-idle 1.6s ease-in-out infinite; transform-origin: 50% 100%; }
+.env-mascots.show:not(.running) .bride .pose-reach img { animation-delay: .4s; }
+@keyframes env-mascot-run { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-7px) rotate(3deg); } }
 @keyframes env-mascot-idle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 @media (prefers-reduced-motion: reduce) { .env-mascot { transition: opacity .3s; transform: none !important; } .env-mascot img { animation: none !important; } }
 
