@@ -10,21 +10,24 @@
 
 .gb-modal { position: fixed; inset: 0; z-index: 3000; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(20, 12, 12, .7); }
 .gb-modal.open { display: flex; }
-.gb-dialog { position: relative; width: min(480px, 100%); max-height: 92vh; overflow: auto; box-sizing: border-box; padding: 22px; border-radius: 16px;
+.gb-dialog { position: relative; display: flex; flex-direction: column; width: min(480px, 100%); max-height: 92vh; overflow: hidden; box-sizing: border-box; padding: 22px; border-radius: 16px;
   background: #fff; color: #3a2e2c; font-family: 'OpenSans', sans-serif; box-shadow: 0 20px 60px rgba(0, 0, 0, .35); }
 .gb-dialog h3 { margin: 0; font: 400 36px 'Aquarelle', cursive; color: #b5485a; }
 .gb-sub { margin: 2px 0 16px; font-size: 13px; color: #8a7e7a; }
 .gb-close { position: absolute; top: 8px; right: 12px; border: 0; background: none; font-size: 32px; line-height: 1; color: #8a7e7a; cursor: pointer; }
 .gb-form { display: flex; flex-direction: column; gap: 10px; }
 .gb-form input, .gb-form textarea { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #e6d9d5; border-radius: 10px;
-  font: 14px 'OpenSans', sans-serif; color: #3a2e2c; resize: vertical; outline: none; }
+  font: 14px 'OpenSans', sans-serif; color: #3a2e2c; resize: none; outline: none; }
 .gb-form input:focus, .gb-form textarea:focus { border-color: #b5485a; }
 .gb-form .gb-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .gb-send { padding: 11px; border: 0; border-radius: 30px; background: #b5485a; color: #fff; font: 600 15px 'OpenSans', sans-serif; cursor: pointer; }
 .gb-send:disabled { opacity: .6; cursor: default; }
 .gb-status { margin: 0; min-height: 18px; font-size: 13px; }
 .gb-status.ok { color: #3c8a5a; } .gb-status.err { color: #c22a40; }
-.gb-list { margin-top: 14px; border-top: 1px solid #f0e6e3; padding-top: 10px; }
+.gb-list { flex: 0 1 auto; height: min(280px, 36vh); min-height: 120px; margin-top: 14px; padding: 4px 6px 0 0; border-top: 1px solid #f0e6e3;
+  overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #e2c3c9 transparent; }
+.gb-list::-webkit-scrollbar { width: 6px; }
+.gb-list::-webkit-scrollbar-thumb { background: #e2c3c9; border-radius: 3px; }
 .gb-item { padding: 10px 0; border-bottom: 1px dashed #f0e6e3; }
 .gb-head { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
 .gb-head b { color: #b5485a; } .gb-head span { color: #a99c98; font-size: 12px; }
