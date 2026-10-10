@@ -34,3 +34,14 @@
 .gb-item p { margin: 4px 0 0; font-size: 14px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
 .gb-empty { color: #a99c98; font-size: 13px; text-align: center; }
 .gb-rsvp-msg { margin: 0; min-height: 1em; font-size: 13px; color: #b5485a; text-align: center; }
+
+/* Wedding-date tile inside the RSVP card */
+.rsvp-date { display: flex; align-items: center; gap: 12px; margin: 2px 0 14px; padding: 8px 10px; border-radius: 10px; background: #fff5f6;
+  border: 1px solid #f6d5da; text-align: left; font-family: 'OpenSans', sans-serif; color: #3a2e2c; }
+.rsvp-date-sheet { flex: 0 0 54px; display: flex; flex-direction: column; align-items: center; overflow: hidden; border-radius: 8px; background: #fff;
+  box-shadow: 0 2px 6px rgba(180, 60, 80, .18); line-height: 1.1; }
+.rsvp-date-month { width: 100%; padding: 2px 0; background: #e64a5f; color: #fff; font-size: 9px; font-weight: 700; text-align: center; letter-spacing: .03em; }
+.rsvp-date-sheet strong { font-size: 24px; color: #e64a5f; padding-top: 2px; }
+.rsvp-date-dow { font-size: 8.5px; color: #8a7e7a; padding-bottom: 4px; }
+.rsvp-date-info p { margin: 0; font-size: 11px; line-height: 1.5; color: #6b5d59; }
+.rsvp-date-info .rsvp-date-time { font-size: 13px; font-weight: 700; color: #b5485a; }

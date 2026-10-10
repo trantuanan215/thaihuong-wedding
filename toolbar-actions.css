@@ -2,6 +2,9 @@
 #app-view-index { position: relative; }
 .heart-layer { position: absolute; inset: 0; z-index: 1001; overflow: hidden; pointer-events: none; }
 .flying-heart { position: absolute; filter: drop-shadow(0 2px 3px rgba(180, 30, 60, .25)); will-change: transform, opacity; }
+#animation-gift-preview-btn { width: 35px !important; padding: 0 !important; justify-content: center; border-radius: 50% !important; }
+#animation-gift-preview-btn span { display: none !important; }
+#animation-gift-preview-btn img { height: 26px !important; }
 #animation-gift-preview-btn:active { transform: scale(.94); }
 
 #cinelove-like-button.rsvp-shortcut { background: linear-gradient(#ff8fa3, #e63950) !important; border-radius: 50% !important; display: flex; align-items: center;
@@ -10,3 +13,16 @@
 #cinelove-like-button.rsvp-shortcut:active { transform: scale(.92); }
 
 #blessing-box.gb-box.gb-hidden { opacity: 0 !important; visibility: hidden !important; }
+
+.money-shortcut { width: 35px; height: 35px; flex: 0 0 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
+  background: #fff3d6; box-shadow: 0 2px 8px rgba(214, 47, 69, .3); animation: money-wiggle 5s ease-in-out 1s infinite; }
+.money-shortcut svg { width: 24px; height: 24px; }
+.money-shortcut:active { transform: scale(.92); }
+@keyframes money-wiggle { 0%, 88%, 100% { transform: rotate(0); } 91% { transform: rotate(-12deg); } 94% { transform: rotate(10deg); } 97% { transform: rotate(-6deg); } }
+
+#cinelove-toolbar .message-box-button span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Narrow phones: keep the toolbar on one line */
+@media (max-width: 400px) {
+  #cinelove-toolbar .toolbar-right { gap: 7px !important; }
+}

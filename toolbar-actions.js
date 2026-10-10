@@ -62,7 +62,11 @@
     }
   }
   var shoot = document.getElementById('animation-gift-preview-btn');
-  if (shoot) shoot.addEventListener('click', function () { burst(shoot); });
+  if (shoot) {
+    shoot.title = 'Bắn tim';
+    shoot.setAttribute('aria-label', 'Bắn tim');
+    shoot.addEventListener('click', function () { burst(shoot); });
+  }
 
   // ---------- Gift button: jump to the wedding-gift QR card ----------
   var gift = document.getElementById('cinelove-gift-button');
@@ -70,6 +74,22 @@
   if (gift) {
     gift.title = 'Gửi quà mừng';
     gift.addEventListener('click', function () { jumpTo(qrCard); });
+
+    // Red-envelope shortcut next to the gift box, also jumping to the QR card
+    var envelope = document.createElement('div');
+    envelope.className = 'money-shortcut';
+    envelope.title = 'Gửi tiền mừng';
+    envelope.setAttribute('role', 'button');
+    envelope.setAttribute('aria-label', 'Gửi tiền mừng');
+    envelope.innerHTML =
+      '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+      '<rect x="4" y="2.5" width="16" height="19" rx="2.2" fill="#d62f45"/>' +
+      '<path d="M4 4.7C4 3.5 5 2.5 6.2 2.5h11.6c1.2 0 2.2 1 2.2 2.2V7l-8 4.2L4 7Z" fill="#b51f35"/>' +
+      '<circle cx="12" cy="11" r="3.4" fill="#f7c948"/>' +
+      '<text x="12" y="12.9" text-anchor="middle" font-size="5.2" font-weight="700" fill="#b51f35" font-family="Arial">₫</text>' +
+      '<path d="M8 17h8M9.5 19h5" stroke="#f7c948" stroke-width="1" stroke-linecap="round"/></svg>';
+    envelope.addEventListener('click', function () { jumpTo(qrCard); });
+    gift.parentNode.insertBefore(envelope, gift);
   }
 
   // ---------- Like button -> RSVP shortcut ----------
