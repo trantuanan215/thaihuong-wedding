@@ -1,11 +1,19 @@
 (function () {
   var WEDDING = new Date('2026-10-25T11:00:00+07:00');
 
-  // Fit the fixed 500px canvas to narrow screens
+  // Fit the fixed 500px canvas to narrow screens. transform: scale() instead of CSS zoom because
+  // WebKit (iOS Safari / in-app browsers) does not shrink text with zoom, so text overflowed its boxes.
   var root = document.getElementById('root-page-container');
   function fit() {
-    var w = Math.min(window.innerWidth, 500);
-    root.style.zoom = w < 500 ? w / 500 : '';
+    var s = Math.min(window.innerWidth, 500) / 500;
+    if (s < 1) {
+      root.style.transformOrigin = '0 0';
+      root.style.transform = 'scale(' + s + ')';
+      // the scaled canvas keeps its unscaled layout height, so pull following content up
+      root.style.marginBottom = -(root.offsetHeight * (1 - s)) + 'px';
+    } else {
+      root.style.transform = root.style.transformOrigin = root.style.marginBottom = '';
+    }
   }
   fit();
   window.addEventListener('resize', fit);

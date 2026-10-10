@@ -7,3 +7,23 @@
 .invite-names { margin-top: 4px !important; font: 400 30px/1.15 'HoaTay1', 'Signora', cursive; }
 .invite-date { margin-top: 4px !important; font: 700 14px 'PlayfairDisplay', serif; letter-spacing: .18em; }
 .invite-guest { margin-top: 5px !important; font: italic 400 13px 'Signora', 'PlayfairDisplay', serif; color: #f7d774; }
+
+/* Chibi couple beside the opened envelope */
+.env-mascots { position: absolute; z-index: 5; pointer-events: none; }
+.env-mascot { position: absolute; bottom: -14px; height: 122px; width: max-content; opacity: 0; transition: transform 1.3s cubic-bezier(.25, .7, .35, 1), opacity .35s ease; }
+.env-mascot img { display: block; height: 100%; width: auto; max-width: none; filter: drop-shadow(0 5px 5px rgba(0, 0, 0, .25)); }
+.env-mascot.groom { right: calc(100% - 14px); transform: translateX(-240px); }
+.env-mascot.bride { left: calc(100% - 26px); transform: translateX(240px); }
+.env-mascots.show .env-mascot { opacity: 1; transform: none; }
+.env-mascots.show .env-mascot.bride { transition-delay: .15s; }
+.env-mascots.running .env-mascot img { animation: env-mascot-run .3s ease-in-out infinite; }
+.env-mascots.show:not(.running) .env-mascot img { animation: env-mascot-idle 1.6s ease-in-out infinite; }
+.env-mascots.show:not(.running) .env-mascot.bride img { animation-delay: .4s; }
+@keyframes env-mascot-run { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
+@keyframes env-mascot-idle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@media (prefers-reduced-motion: reduce) { .env-mascot { transition: opacity .3s; transform: none !important; } .env-mascot img { animation: none !important; } }
+
+/* Canvas items are decorative: only the ones wired up in JS (inline pointer-events) and the RSVP form take taps,
+   so overlapping photos/flowers cannot swallow taps meant for the envelope */
+#root-page-container .w-full.h-full > [data-node-id] { pointer-events: none; }
+#root-page-container .w-full.h-full > [data-node-id]:has(form) { pointer-events: auto; }

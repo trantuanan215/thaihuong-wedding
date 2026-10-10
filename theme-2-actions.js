@@ -21,11 +21,34 @@
       '</div>';
     var hint = node('cr7lopk2bC');
     var hintText = hint && hint.querySelector('[contenteditable="false"]');
+    // Chibi couple that runs in and stands on both sides of the envelope while it is open
+    var envNode = node('FlIA12U-JR');
+    var pair = document.createElement('div');
+    pair.className = 'env-mascots';
+    pair.setAttribute('aria-hidden', 'true');
+    ['groom', 'bride'].forEach(function (who) {
+      var m = document.createElement('div');
+      m.className = 'env-mascot ' + who;
+      var img = document.createElement('img');
+      img.src = who === 'groom' ? 'assets/mascot/thai.webp' : 'assets/mascot/huong.webp';
+      img.alt = '';
+      m.appendChild(img);
+      pair.appendChild(m);
+    });
+    if (envNode) {
+      ['top', 'left', 'width', 'height'].forEach(function (k) { pair.style[k] = envNode.style[k]; });
+      envNode.parentNode.insertBefore(pair, envNode.nextSibling);
+    }
+    var runTimer = null;
     var toggle = function () {
       var open = envelope.classList.contains('close');
       envelope.classList.toggle('open', open);
       envelope.classList.toggle('close', !open);
       if (hintText) hintText.textContent = open ? 'Chạm để đóng thiệp' : 'Chạm để mở thiệp';
+      pair.classList.add('running');
+      pair.classList.toggle('show', open);
+      clearTimeout(runTimer);
+      runTimer = setTimeout(function () { pair.classList.remove('running'); }, 1400);
     };
     clickable(node('FlIA12U-JR'), toggle);
     clickable(hint, toggle);

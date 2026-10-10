@@ -1,5 +1,7 @@
 /* Overrides for the static local copy */
 html, body { margin: 0; padding: 0; }
+/* iOS/in-app browsers inflate text inside the 500px canvas, breaking the fixed layout */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .pc-content { width: 500px !important; }
 #audio-control-wrapper .icon-cancel { display: none; }
 #audio-control-wrapper.paused .icon-cancel { display: block; }
