@@ -56,6 +56,7 @@
       runTimer = setTimeout(function () { pair.classList.remove('running'); }, 1400);
     };
     clickable(node('FlIA12U-JR'), toggle);
+    if (window.WEDDING_EDIT_MODE) toggle();   // photo admin: show the letter so its photo can be edited
     clickable(hint, toggle);
   }
 

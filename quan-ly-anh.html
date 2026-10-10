@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="robots" content="noindex, nofollow"/>
 <title>Quản lý ảnh thiệp cưới</title>
-<link rel="stylesheet" href="admin-photo.css?v=1"/>
+<link rel="stylesheet" href="admin-photo.css?v=2"/>
 </head>
 <body>
 <header class="top">
@@ -38,14 +38,31 @@
 
 <div id="picker" class="picker" hidden>
   <div class="picker-box">
-    <div class="picker-head"><strong>Chọn ảnh từ thư viện</strong><button id="picker-close" class="btn ghost">Đóng</button></div>
+    <div class="picker-head"><strong>Chọn ảnh từ thư viện</strong>
+      <span class="picker-actions"><button id="picker-keep" class="btn">Giữ ảnh hiện tại, chỉnh khung</button><button id="picker-close" class="btn ghost">Đóng</button></span></div>
     <div id="picker-grid" class="picker-grid"></div>
+  </div>
+</div>
+
+<div id="crop" class="picker" hidden>
+  <div class="crop-box">
+    <div class="picker-head"><strong id="crop-title">Chỉnh khung ảnh</strong><button id="crop-change" class="btn ghost">Đổi ảnh khác</button></div>
+    <p class="hint crop-hint">Kéo ảnh để dời · cuộn chuột hoặc thanh trượt để zoom. Phần nằm trong khung là phần hiển thị trên thiệp.</p>
+    <div class="crop-stage"><div id="crop-frame" class="crop-frame"></div></div>
+    <label class="crop-zoom">Zoom <input id="crop-zoom" type="range" min="100" max="300" value="100"/></label>
+    <div class="crop-actions">
+      <button id="crop-reset" class="btn ghost">Về ảnh gốc</button>
+      <button id="crop-center" class="btn ghost">Căn giữa</button>
+      <button id="crop-cancel" class="btn ghost">Huỷ</button>
+      <button id="crop-done" class="btn primary">Xong</button>
+    </div>
   </div>
 </div>
 
 <script src="album-data.js?v=1"></script>
 <script src="guestbook-config.js?v=2"></script>
-<script src="admin-photo-data.js?v=1"></script>
-<script src="admin-photo-ui.js?v=1"></script>
+<script src="admin-photo-data.js?v=2"></script>
+<script src="admin-visual-editor.js?v=2"></script>
+<script src="admin-photo-ui.js?v=2"></script>
 </body>
 </html>

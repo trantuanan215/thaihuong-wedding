@@ -1,5 +1,6 @@
 // Applies the photo layout saved from the admin page: which library photo fills each photo slot
-// of this theme (plus its vertical focus) and the album order. The last config is cached locally
+// of this theme with its framing (x/y position %, size % of the slot width; older configs stored
+// only a vertical "pos") and the album order. The last config is cached locally
 // so returning guests see it instantly; the latest one is fetched from the Apps Script backend.
 (function () {
   var THEME = /theme-1\.html$/.test(location.pathname) ? 'theme1' : 'theme2';
@@ -38,13 +39,22 @@
       var url = photoUrl(s.photo), el = slotEl(nid);
       if (!el) return;
       if (!originals[nid]) originals[nid] = { image: el.style.backgroundImage, size: el.style.backgroundSize, pos: el.style.backgroundPosition };
-      if (nid === 'letter') { el.style.backgroundImage = 'url("' + url + '")'; return; }   // theme 2 envelope letter
+      var y = s.y != null ? s.y : s.pos;
+      if (nid === 'letter') {                       // theme 2 envelope letter keeps its CSS framing unless edited
+        el.style.backgroundImage = 'url("' + url + '")';
+        if (s.size) { el.style.backgroundSize = s.size + '% auto'; el.style.backgroundPosition = (s.x != null ? s.x : 50) + '% ' + (y != null ? y : 50) + '%'; }
+        return;
+      }
       el.style.backgroundImage = originals[nid].image;
       setBackground(el, url);
-      el.style.backgroundSize = 'cover';
-      el.style.backgroundPosition = 'center ' + (s.pos != null ? s.pos : 50) + '%';
+      el.style.backgroundSize = s.size ? s.size + '% auto' : 'cover';
+      el.style.backgroundPosition = (s.x != null ? s.x : 50) + '% ' + (y != null ? y : 50) + '%';
     });
   }
+
+  // the photo admin embeds the page with ?edit=1 and drives the preview itself
+  window.applyPhotoConfig = apply;
+  if (window.WEDDING_EDIT_MODE) return;
 
   var cachedText = null;
   try { cachedText = localStorage.getItem(CACHE); } catch (e) {}

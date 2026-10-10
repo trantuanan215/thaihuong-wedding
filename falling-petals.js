@@ -3,6 +3,7 @@
   var app = document.getElementById('app-view-index');
   if (!app || !window.requestAnimationFrame) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.WEDDING_EDIT_MODE) return;
 
   var canvas = document.createElement('canvas');
   canvas.className = 'falling-petals';

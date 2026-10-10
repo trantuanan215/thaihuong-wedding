@@ -7,8 +7,8 @@ window.AdminData = (function () {
     { id: 'theme1', label: 'Theme 1', page: 'theme-1.html' }
   ];
   // the theme 2 envelope letter photo lives in theme-2.css, not in a canvas node
-  var LETTER = { nids: ['letter'], label: 'Lá thư trong phong bì (lúc mở thiệp)', top: 260, w: 331, h: 221,
-    photo: 'assets/img/afff8329-cd26-4fc8-abd8-cc74e38a0a26-b49d344f.jpg', pos: 50 };
+  var LETTER = { nids: ['letter'], label: 'Lá thư trong phong bì', top: 260, w: 331, h: 221,
+    photo: 'assets/img/afff8329-cd26-4fc8-abd8-cc74e38a0a26-b49d344f.jpg', sizes: { letter: { w: 331, h: 221, pos: 50 } } };
 
   function getKey() { try { return localStorage.getItem(KEY_STORE) || ''; } catch (e) { return ''; } }
   function setKey(k, remember) { try { remember ? localStorage.setItem(KEY_STORE, k) : localStorage.removeItem(KEY_STORE); } catch (e) {} }
@@ -58,8 +58,10 @@ window.AdminData = (function () {
         var st = node.getAttribute('style'), w = px(st, 'width'), h = px(st, 'height');
         if (!w || !h || w < 60 || h < 60) return;
         var pos = /background-position:\s*center\s+([\d.]+)%/.exec(wrap.getAttribute('style') || '');
-        var g = groups[url] || (groups[url] = { nids: [], photo: url, pos: pos ? parseFloat(pos[1]) : 50, top: px(st, 'top'), w: w, h: h });
-        g.nids.push(node.getAttribute('data-node-id'));
+        var g = groups[url] || (groups[url] = { nids: [], sizes: {}, photo: url, top: px(st, 'top'), w: w, h: h });
+        var nid = node.getAttribute('data-node-id');
+        g.nids.push(nid);
+        g.sizes[nid] = { w: w, h: h, pos: pos ? parseFloat(pos[1]) : 50 };
         if (w * h > g.w * g.h) { g.w = w; g.h = h; }        // preview the largest use of the photo
       });
       var list = Object.keys(groups).map(function (k) { return groups[k]; }).sort(function (a, b) { return a.top - b.top; });

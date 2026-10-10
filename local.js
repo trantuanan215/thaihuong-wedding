@@ -1,4 +1,6 @@
 (function () {
+  // ?edit=1: the page is embedded in the photo admin, so stay still and silent and show everything
+  var EDIT = window.WEDDING_EDIT_MODE = /[?&]edit=1\b/.test(location.search);
   var WEDDING = new Date('2026-10-25T11:00:00+07:00');
 
   // Fit the fixed 500px canvas to narrow screens. transform: scale() instead of CSS zoom because
@@ -20,6 +22,7 @@
 
   // Scroll-reveal for elements the SSR left at opacity:0
   var targets = document.querySelectorAll('[data-transition-key]');
+  if (EDIT) Array.prototype.forEach.call(targets, function (t) { t.classList.add('revealed'); });
   var scroller = root.closest('.styles_customScroll__X5r6w') || null;
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
@@ -72,10 +75,13 @@
     document.removeEventListener('pointerup', firstGesture, true);
     document.removeEventListener('keydown', firstGesture, true);
   }
-  document.addEventListener('pointerup', firstGesture, true);
-  document.addEventListener('keydown', firstGesture, true);
-  var pendingAutoplay = audio.play();
-  if (pendingAutoplay) pendingAutoplay.then(stopListening, function () {});
+  if (EDIT) setUI(false);
+  else {
+    document.addEventListener('pointerup', firstGesture, true);
+    document.addEventListener('keydown', firstGesture, true);
+    var pendingAutoplay = audio.play();
+    if (pendingAutoplay) pendingAutoplay.then(stopListening, function () {});
+  }
 
   // Countdown: days / hours / minutes / seconds until the ceremony
   var cd = document.querySelector('.countdown');
@@ -90,7 +96,7 @@
   }
 
   // Auto-scroll like the original, stopping as soon as the visitor interacts
-  if (scroller) {
+  if (scroller && !EDIT) {
     var auto = true, last = performance.now();
     window.stopAutoScroll = function () { auto = false; };
     ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(function (t) {

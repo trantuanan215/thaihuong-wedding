@@ -79,7 +79,7 @@
     }, 3900);
     setTimeout(function () { show(gRun, false); show(bRun, false); busy = false; }, 6300);
   }
-  if (!reduced) {
+  if (!reduced && !window.WEDDING_EDIT_MODE) {
     setTimeout(runOnce, 2500);
     setInterval(runOnce, 40000);
   }

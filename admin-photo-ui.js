@@ -1,4 +1,5 @@
-// Admin photo layout UI: login, per-theme photo slots with a library picker + focus slider, album ordering.
+// Admin photo layout page shell: login, theme tabs showing the real invitation (edited visually via
+// AdminVisual), album ordering, and saving the layout to the Apps Script backend.
 (function () {
   var D = window.AdminData, $ = function (s) { return document.querySelector(s); };
   var state = { key: '', config: {}, slots: {}, library: [], album: [], tab: 'theme2', dirty: false };
@@ -21,7 +22,6 @@
     }).catch(function (err) { status(err.message, 'err'); });
   }
 
-  // ---------- load everything ----------
   function start() {
     status('Đang tải cấu hình và các khung ảnh…');
     Promise.all([D.loadConfig()].concat(D.THEMES.map(D.discoverSlots))).then(function (res) {
@@ -32,7 +32,7 @@
       var saved = (state.config.album || []).filter(function (n) { return def.indexOf(n) >= 0; });
       state.album = saved.concat(def.filter(function (n) { return saved.indexOf(n) < 0; }));
       $('#app').hidden = false;
-      status('Sẵn sàng');
+      status('Bấm vào ảnh bất kỳ trên thiệp để đổi ảnh / chỉnh khung');
       render();
     }).catch(function (err) { status('Không tải được: ' + err.message, 'err'); });
   }
@@ -43,70 +43,30 @@
     var panel = $('#panel');
     panel.textContent = '';
     if (state.tab === 'album') return renderAlbum(panel);
-    renderSlots(panel, state.tab);
+    renderTheme(panel, state.tab);
   }
 
-  // current choice for a slot group: saved override (first nid of the group) or the default
-  function choice(themeId, g) {
-    var o = (state.config[themeId] || {})[g.nids[0]];
-    return { photo: (o && o.photo) || g.photo, pos: o && o.pos != null ? o.pos : g.pos };
-  }
-  function setChoice(themeId, g, photo, pos) {
-    var t = state.config[themeId] || (state.config[themeId] = {});
-    g.nids.forEach(function (nid) {
-      if (photo === g.photo && pos === g.pos) delete t[nid];
-      else t[nid] = { photo: photo, pos: pos };
-    });
-    markDirty();
-  }
-
-  function renderSlots(panel, themeId) {
+  function renderTheme(panel, themeId) {
     var theme = D.THEMES.filter(function (t) { return t.id === themeId; })[0];
     var head = el('div', 'panel-head');
-    head.appendChild(el('p', 'hint', 'Bấm "Đổi ảnh" để chọn ảnh khác từ thư viện. Kéo thanh trượt để chỉnh phần ảnh được hiển thị (trên ↔ dưới).'));
-    var view = el('a', 'btn ghost', 'Xem trang ↗'); view.href = theme.page; view.target = '_blank';
+    head.appendChild(el('p', 'hint', 'Bấm vào ảnh có viền đứt trên thiệp → chọn ảnh → kéo để dời, zoom để phóng to → Xong. Cuối cùng bấm "Lưu thay đổi".'));
+    var view = el('a', 'btn ghost', 'Xem trang thật ↗'); view.href = theme.page; view.target = '_blank';
     head.appendChild(view);
     panel.appendChild(head);
-    var grid = el('div', 'slot-grid');
-    state.slots[themeId].forEach(function (g) {
-      var c = choice(themeId, g);
-      var card = el('div', 'slot');
-      var box = el('div', 'slot-preview');
-      box.style.aspectRatio = g.w + ' / ' + g.h;
-      box.style.backgroundImage = 'url("' + D.photoUrl(c.photo) + '")';
-      box.style.backgroundPosition = 'center ' + c.pos + '%';
-      card.appendChild(box);
-      card.appendChild(el('p', 'slot-title', g.label || ('Khung #' + g.index + (g.nids.length > 1 ? ' (' + g.nids.length + ' chỗ)' : ''))));
-      card.appendChild(el('p', 'slot-meta', Math.round(g.w) + '×' + Math.round(g.h) + ' · ' + (g.w > g.h * 1.15 ? 'ngang' : g.h > g.w * 1.15 ? 'dọc' : 'vuông') +
-        (g.top != null ? ' · cách đầu thiệp ' + Math.round(g.top) + 'px' : '')));
-      var range = el('input'); range.type = 'range'; range.min = 0; range.max = 100; range.value = c.pos;
-      range.oninput = function () { box.style.backgroundPosition = 'center ' + range.value + '%'; };
-      range.onchange = function () { setChoice(themeId, g, choice(themeId, g).photo, +range.value); };
-      card.appendChild(range);
-      var row = el('div', 'slot-actions');
-      var change = el('button', 'btn', 'Đổi ảnh');
-      change.onclick = function () { pick(function (name) { setChoice(themeId, g, name, choice(themeId, g).pos); render(); }); };
-      var reset = el('button', 'btn ghost', 'Mặc định');
-      reset.onclick = function () { setChoice(themeId, g, g.photo, g.pos); render(); };
-      row.appendChild(change); row.appendChild(reset);
-      card.appendChild(row);
-      grid.appendChild(card);
-    });
-    panel.appendChild(grid);
-  }
-
-  // ---------- library picker ----------
-  function pick(onPick) {
-    var modal = $('#picker'), grid = $('#picker-grid');
-    grid.textContent = '';
-    state.library.forEach(function (name) {
-      var b = el('button', 'pick');
-      b.style.backgroundImage = 'url("' + D.thumbUrl(name) + '")';
-      b.title = name;
-      b.onclick = function () { modal.hidden = true; onPick(name); };
-      grid.appendChild(b);
-    });
-    modal.hidden = false;
+    var phone = el('div', 'phone');
+    var frame = el('iframe', 'theme-frame');
+    frame.title = 'Xem trước ' + theme.label;
+    frame.src = theme.page + '?edit=1';
+    frame.onload = function () {
+      // wait for the page scripts (photo-config.js exposes applyPhotoConfig at the end of the body)
+      var tries = 0;
+      (function ready() {
+        if (frame.contentWindow.applyPhotoConfig || tries++ > 40) return AdminVisual.attach(frame, themeId, state.slots[themeId], state, markDirty);
+        setTimeout(ready, 100);
+      })();
+    };
+    phone.appendChild(frame);
+    panel.appendChild(phone);
   }
 
   // ---------- album order ----------
