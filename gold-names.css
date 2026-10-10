@@ -1,0 +1,27 @@
+/* Gold-foil shimmer on the couple's names (both themes, desktop panel, envelope letter) */
+:root {
+  --gold-foil: linear-gradient(100deg, #7a5a1c 0%, #b8862b 18%, #f6e3a1 32%, #c9962f 46%, #8c6420 60%, #e9cf7f 76%, #a87a26 90%, #7a5a1c 100%);
+}
+[data-node-id="ZJ2fiWLKI1"] [contenteditable="false"],
+[data-node-id="4r4f0svS16"] [contenteditable="false"],
+[data-node-id="kluwvOBss7"] [contenteditable="false"],
+[data-node-id="GAarz1mzC6"] [contenteditable="false"],
+[data-node-id="Mv1w2ApCo_"] [contenteditable="false"],
+[data-node-id="GBEUQKCVHn"] [contenteditable="false"],
+[data-node-id="5sp3EESy9f"] [contenteditable="false"],
+.hero-names, .invite-names {
+  background-image: var(--gold-foil) !important;
+  background-size: 250% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #b8862b;
+  animation: gold-foil-shine 5s linear infinite;
+}
+/* on photos the gold needs a soft dark halo; text-shadow would show through the clipped fill, so use a filter */
+.hero-names, .invite-names { text-shadow: none !important; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .45)); }
+.hero-names span { -webkit-text-fill-color: transparent; }
+@keyframes gold-foil-shine { from { background-position: 0% center; } to { background-position: 250% center; } }
+@media (prefers-reduced-motion: reduce) {
+  [data-node-id] [contenteditable="false"], .hero-names, .invite-names { animation: none !important; }
+}

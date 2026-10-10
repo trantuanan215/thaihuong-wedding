@@ -33,3 +33,7 @@
    so overlapping photos/flowers cannot swallow taps meant for the envelope */
 #root-page-container .w-full.h-full > [data-node-id] { pointer-events: none; }
 #root-page-container .w-full.h-full > [data-node-id]:has(form) { pointer-events: auto; }
+
+/* Calendar weekday header (Monday-first) */
+.template-three .cal-dow { font-size: 12px; font-weight: 700; letter-spacing: .04em; opacity: .9; }
+.template-three .cal-dow.sun { color: #ffc2d1; }

@@ -32,19 +32,42 @@
   var audio = document.querySelector('audio');
   var btn = document.getElementById('audio-control-wrapper');
   audio.loop = true;
-  function sync() { btn.classList.toggle('paused', audio.paused); }
-  btn.addEventListener('click', function (ev) {
+  btn.setAttribute('role', 'button');
+  btn.setAttribute('tabindex', '0');
+  // update the icon immediately on tap; the audio may still be loading on a slow connection
+  function setUI(playing) {
+    btn.classList.toggle('paused', !playing);
+    btn.setAttribute('aria-label', playing ? 'Tắt nhạc' : 'Bật nhạc');
+    btn.setAttribute('aria-pressed', String(playing));
+  }
+  function play() {
+    setUI(true);
+    var pending = audio.play();
+    if (pending) pending.catch(function () { setUI(false); });
+  }
+  function pause() { audio.pause(); setUI(false); }
+  function toggle(ev) {
     ev.stopPropagation();
-    audio.paused ? audio.play() : audio.pause();
-  });
-  audio.addEventListener('play', sync);
-  audio.addEventListener('pause', sync);
-  sync();
-  audio.play().catch(function () {
-    document.addEventListener('pointerdown', function once() {
-      audio.play().catch(function () {});
-      document.removeEventListener('pointerdown', once);
-    });
+    ev.preventDefault();
+    audio.paused ? play() : pause();
+  }
+  btn.addEventListener('click', toggle);
+  btn.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') toggle(ev); });
+  audio.addEventListener('play', function () { setUI(true); });
+  audio.addEventListener('pause', function () { setUI(false); });
+  setUI(false);
+  // Autoplay is usually blocked: start on the first tap/key anywhere, except a tap on the music
+  // button itself (its own click handles it; otherwise that tap would start then stop the music).
+  // pointerup, not pointerdown: on touch screens the browser grants playback permission on release.
+  var pendingAutoplay = audio.play();
+  if (pendingAutoplay) pendingAutoplay.then(function () { setUI(true); }, function () {
+    function once(ev) {
+      document.removeEventListener('pointerup', once, true);
+      document.removeEventListener('keydown', once, true);
+      if (!btn.contains(ev.target) && audio.paused) play();
+    }
+    document.addEventListener('pointerup', once, true);
+    document.addEventListener('keydown', once, true);
   });
 
   // Countdown: days / hours / minutes / seconds until the ceremony
