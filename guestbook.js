@@ -83,6 +83,7 @@
         var m = { name: name, message: message, time: Date.now() };
         messages.unshift(m); renderList(); bubble(m);
         msgIn.value = ''; setStatus('Đã gửi lời chúc, cảm ơn bạn!', true);
+        document.dispatchEvent(new CustomEvent('wedding:thanks'));
       })
       .catch(function (err) { setStatus(err.message || 'Gửi không thành công, thử lại nhé.', false); })
       .then(function () { submit.disabled = false; });
@@ -133,7 +134,11 @@
     rsvpBtn.disabled = true; rsvpMsg.textContent = 'Đang gửi...';
     var count = rsvp.querySelector('#rsvp-attendee-count');
     send({ type: 'rsvp', name: name, attendance: checked ? checked.value : 'yes', guests: count ? count.value : '' })
-      .then(function () { rsvpMsg.textContent = 'Cảm ơn ' + name + '! Chúng mình đã nhận được xác nhận.'; store('gb-name', name); })
+      .then(function () {
+        rsvpMsg.textContent = 'Cảm ơn ' + name + '! Chúng mình đã nhận được xác nhận.';
+        store('gb-name', name);
+        document.dispatchEvent(new CustomEvent('wedding:thanks'));
+      })
       .catch(function (err) { rsvpMsg.textContent = err.message || 'Gửi không thành công, thử lại nhé.'; rsvpBtn.disabled = false; });
   });
 })();

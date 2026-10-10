@@ -1,3 +1,6 @@
 # Original full-size photos (269MB) - the site uses assets/album/ instead
 images/
 .DS_Store
+
+# Source chibi artwork (large); the site uses assets/mascot/
+assets/chibi/

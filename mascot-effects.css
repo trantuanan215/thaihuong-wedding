@@ -1,0 +1,58 @@
+/* Chibi mascots: running lane, thank-you scene, ending scene */
+.mascot { position: absolute; bottom: 0; left: 0; }
+.mascot-img { display: block; height: 100%; width: auto; user-select: none; filter: drop-shadow(0 4px 4px rgba(0, 0, 0, .18)); }
+@keyframes mascot-bob { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-7px) rotate(3deg); } }
+@keyframes mascot-bounce { 0%, 100% { transform: translateY(0) scale(1, 1); } 40% { transform: translateY(-10px) scale(.98, 1.03); } 60% { transform: translateY(0) scale(1.03, .97); } }
+
+/* 1. running lane just above the bottom toolbar */
+.mascot-lane { position: absolute; left: 0; right: 0; bottom: 64px; height: 124px; z-index: 998; pointer-events: none; overflow: hidden; visibility: hidden; }
+.mascot-lane.running { visibility: visible; }
+.mascot-lane .mascot { height: 92px; }
+.mascot-lane .bride { height: 92px; }
+.mascot-lane .mascot-img { animation: mascot-bob .32s ease-in-out infinite; }
+.mascot-lane .bride .mascot-img { animation-delay: .16s; }
+.mascot-meet-heart { position: absolute; left: 50%; top: 10px; font-size: 26px; color: #ff4969; opacity: 0; text-shadow: 0 2px 6px rgba(255, 73, 105, .45); }
+
+/* 2. thank-you scene */
+.mascot-thanks { position: fixed; inset: 0; z-index: 3500; display: none; align-items: center; justify-content: center; background: rgba(40, 20, 26, .78);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); cursor: pointer; }
+.mascot-thanks.show { display: flex; animation: mascot-fade .35s ease-out; }
+@keyframes mascot-fade { from { opacity: 0; } }
+.mascot-thanks-stage { position: relative; width: min(420px, 92vw); height: 300px; }
+.mascot-thanks .mascot { height: 190px; bottom: 10px; }
+.mascot-thanks .groom { left: 50%; transform: translateX(-100%); animation: mascot-in-left 1s cubic-bezier(.2, .8, .3, 1) both; }
+.mascot-thanks .bride { left: 50%; transform: translateX(-12%); animation: mascot-in-right 1s cubic-bezier(.2, .8, .3, 1) both; }
+.mascot-thanks .mascot-img { animation: mascot-bounce .9s ease-in-out 1s 3; }
+.mascot-thanks .bride .mascot-img { animation-delay: 1.15s; }
+@keyframes mascot-in-left { from { transform: translateX(-100%) translateX(-60vw); } }
+@keyframes mascot-in-right { from { transform: translateX(-12%) translateX(60vw); } }
+.mascot-thanks-text { position: absolute; left: 0; right: 0; top: 4px; margin: 0; text-align: center; color: #fff; font: 400 34px/1.15 'Aquarelle', 'HoaTay1', cursive;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .45); opacity: 0; animation: mascot-text-in .8s ease-out 1s both; }
+@keyframes mascot-text-in { from { opacity: 0; transform: translateY(12px) scale(.95); } to { opacity: 1; transform: none; } }
+.mascot-thanks-hearts { position: absolute; inset: 0; pointer-events: none; }
+.mascot-heart { position: absolute; bottom: 120px; color: #ff6f91; opacity: 0; animation: mascot-heart-up 2.6s ease-out 1.1s both; }
+@keyframes mascot-heart-up { 0% { opacity: 0; transform: translateY(0) scale(.4); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-190px) scale(1.1); } }
+
+/* 3. ending scene after the album */
+.mascot-ending { position: relative; padding: 34px 16px 96px; background: linear-gradient(#fff, #fdf2f4); text-align: center; overflow: hidden; }
+.mascot-ending-kicker { margin: 0; font: 400 40px 'Aquarelle', 'HoaTay1', cursive; color: #b5485a; }
+.mascot-ending-text { margin: 4px 0 0; font: 14px/1.6 'OpenSans', 'Quicksand', sans-serif; color: #6b5d59; }
+.mascot-ending-stage { position: relative; height: 190px; margin-top: 10px; }
+.mascot-ending .mascot { height: 170px; bottom: 0; opacity: 0; }
+.mascot-ending .groom { left: 50%; transform: translateX(-100%); }
+.mascot-ending .bride { left: 50%; transform: translateX(-12%); }
+.mascot-ending.play .groom { animation: mascot-run-in-left 1.6s ease-out both; }
+.mascot-ending.play .bride { animation: mascot-run-in-right 1.6s ease-out .15s both; }
+.mascot-ending.play .mascot-img { animation: mascot-bob .3s ease-in-out 5, mascot-bounce 1.2s ease-in-out 1.8s infinite; }
+@keyframes mascot-run-in-left { from { opacity: 1; transform: translateX(-100%) translateX(-320px); } to { opacity: 1; transform: translateX(-100%); } }
+@keyframes mascot-run-in-right { from { opacity: 1; transform: translateX(-12%) translateX(320px); } to { opacity: 1; transform: translateX(-12%); } }
+.mascot-ending-float { position: absolute; inset: 0; pointer-events: none; }
+.mascot-floater { position: absolute; bottom: 10px; font-size: 18px; color: #ff6f91; opacity: 0; }
+.mascot-ending.play .mascot-floater { animation-name: mascot-float-up; animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
+@keyframes mascot-float-up { 0% { opacity: 0; transform: translateY(0) rotate(0); } 15% { opacity: .9; } 100% { opacity: 0; transform: translateY(-200px) rotate(40deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-lane { display: none; }
+  .mascot-ending .mascot { opacity: 1; animation: none !important; }
+  .mascot-thanks .mascot, .mascot-thanks .mascot-img, .mascot-ending .mascot-img { animation: none !important; }
+}
