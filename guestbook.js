@@ -131,7 +131,8 @@
     if (!name) { rsvpMsg.textContent = 'Vui lòng nhập tên của bạn.'; return; }
     var checked = rsvp.querySelector('input[name="rsvp-attendance"]:checked');
     rsvpBtn.disabled = true; rsvpMsg.textContent = 'Đang gửi...';
-    send({ type: 'rsvp', name: name, attendance: checked ? checked.value : 'yes' })
+    var count = rsvp.querySelector('#rsvp-attendee-count');
+    send({ type: 'rsvp', name: name, attendance: checked ? checked.value : 'yes', guests: count ? count.value : '' })
       .then(function () { rsvpMsg.textContent = 'Cảm ơn ' + name + '! Chúng mình đã nhận được xác nhận.'; store('gb-name', name); })
       .catch(function (err) { rsvpMsg.textContent = err.message || 'Gửi không thành công, thử lại nhé.'; rsvpBtn.disabled = false; });
   });

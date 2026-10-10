@@ -70,7 +70,8 @@
 
   // ---------- Gift button: jump to the wedding-gift QR card ----------
   var gift = document.getElementById('cinelove-gift-button');
-  var qrCard = document.querySelector('[data-node-id="JmU2ieM2Vs"]');
+  var qrImage = document.querySelector('.gift-qr-image');
+  var qrCard = qrImage && qrImage.closest('[data-node-id]');
   if (gift) {
     gift.title = 'Gửi quà mừng';
     gift.addEventListener('click', function () { jumpTo(qrCard); });

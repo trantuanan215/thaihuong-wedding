@@ -5,7 +5,7 @@
  *
  * Sheets (created automatically on first request):
  *   LoiChuc : Thời gian | Tên | Lời chúc | Ẩn   (put "x" in "Ẩn" to hide a message)
- *   XacNhan : Thời gian | Tên | Tham dự
+ *   XacNhan : Thời gian | Tên | Tham dự | Số người
  */
 var MAX_NAME = 50;
 var MAX_MESSAGE = 500;
@@ -40,7 +40,8 @@ function doPost(e) {
     }
     if (data.type === 'rsvp') {
       var attend = data.attendance === 'yes' ? 'Có tham dự' : 'Không tham dự';
-      getSheet_('XacNhan', ['Thời gian', 'Tên', 'Tham dự']).appendRow([new Date(), name, attend]);
+      var guests = Math.min(Math.max(parseInt(data.guests, 10) || 0, 0), 20) || '';
+      getSheet_('XacNhan', ['Thời gian', 'Tên', 'Tham dự', 'Số người']).appendRow([new Date(), name, attend, guests]);
       return json_({ ok: true });
     }
     return json_({ ok: false, error: 'Yêu cầu không hợp lệ' });
@@ -64,6 +65,9 @@ function getSheet_(name, header) {
     sheet = ss.insertSheet(name);
     sheet.appendRow(header);
     sheet.setFrozenRows(1);
+  } else if (sheet.getLastColumn() < header.length) {
+    // add columns introduced after the sheet was created
+    sheet.getRange(1, 1, 1, header.length).setValues([header]);
   }
   return sheet;
 }
