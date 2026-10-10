@@ -4,3 +4,6 @@ images/
 
 # Source chibi artwork (large); the site uses assets/mascot/
 assets/chibi/
+
+# Local Claude Code config (dev server launcher)
+.claude/
