@@ -1,0 +1,12 @@
+/* Overrides for the static local copy */
+html, body { margin: 0; padding: 0; }
+.pc-content { width: 500px !important; }
+#audio-control-wrapper .icon-cancel { display: none; }
+#audio-control-wrapper.paused .icon-cancel { display: block; }
+#audio-control-wrapper:not(.paused) .music-icon { animation: spin-music 4s linear infinite; }
+@keyframes spin-music { to { transform: rotate(360deg); } }
+.revealed { opacity: 1 !important; transform: none !important; }
+@media (max-width: 540px) {
+  .pc-container { padding-top: 0 !important; height: 100dvh !important; }
+  .pc-content { width: 100vw !important; height: 100dvh !important; border: 0 !important; border-radius: 0 !important; }
+}

@@ -1,0 +1,25 @@
+/* Desktop version (>=1024px): photo panel on the left, invitation card on the right */
+.desktop-hero { display: none; }
+@media (min-width: 1024px) {
+  .pc-container.has-desktop-hero { display: flex; align-items: center; gap: 0; padding: 0 !important; height: 100vh !important; background: #f6f1ef !important; }
+  .desktop-hero { display: block; position: relative; flex: 1; height: 100vh; overflow: hidden; color: #fff; }
+  .pc-container.has-desktop-hero .pc-content { flex: 0 0 auto; margin: 0 5vw !important; height: 92vh !important; border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(80, 40, 40, .18) !important; border: 0 !important; }
+  .hero-slides, .hero-slide, .hero-shade { position: absolute; inset: 0; }
+  .hero-slide { background: center / cover no-repeat; opacity: 0; transform: scale(1.06); transition: opacity 1.6s ease, transform 7s ease-out; }
+  .hero-slide.on { opacity: 1; transform: scale(1); }
+  .hero-shade { background: linear-gradient(180deg, rgba(20, 10, 10, 0) 35%, rgba(20, 10, 10, .72) 100%); }
+  .hero-content { position: absolute; left: 7%; right: 7%; bottom: 8vh; font-family: 'OpenSans', sans-serif; text-shadow: 0 2px 12px rgba(0, 0, 0, .3); }
+  .hero-kicker { margin: 0; font-family: 'PlayfairDisplay', serif; letter-spacing: .45em; text-transform: uppercase; font-size: 13px; opacity: .9; }
+  .hero-names { margin: 10px 0 18px; color: #fff; font-family: 'Aquarelle', cursive; font-weight: 400; font-size: clamp(44px, 4.4vw, 84px); line-height: 1.15; }
+  .hero-names b { font-weight: 400; white-space: nowrap; }
+  .hero-names span { font-size: .6em; opacity: .85; padding: 0 .1em; }
+  .hero-date { display: flex; align-items: center; gap: 18px; font-size: 15px; letter-spacing: .08em; }
+  .hero-date strong { font-family: 'PlayfairDisplay', serif; font-weight: 400; font-size: 30px; padding: 0 18px; border-left: 1px solid rgba(255,255,255,.6); border-right: 1px solid rgba(255,255,255,.6); }
+  .hero-lunar { margin: 12px 0 2px; font-size: 14px; opacity: .85; }
+  .hero-venue { margin: 0 0 26px; font-size: 16px; }
+  .hero-actions { display: flex; gap: 12px; }
+  .hero-btn { padding: 12px 26px; border-radius: 30px; border: 1px solid #fff; background: #fff; color: #3a2e2c; font-size: 14px; cursor: pointer; text-decoration: none; transition: .2s; text-shadow: none; }
+  .hero-btn:hover { background: #b5485a; border-color: #b5485a; color: #fff; }
+  .hero-btn.ghost { background: transparent; color: #fff; }
+}

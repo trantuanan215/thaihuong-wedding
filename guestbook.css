@@ -1,0 +1,33 @@
+/* Guestbook: floating message bubbles over the card + popup + RSVP feedback */
+#blessing-box.gb-box { visibility: visible !important; opacity: 1 !important; flex-direction: column; justify-content: flex-end; gap: 6px;
+  height: 200px; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 40px); mask-image: linear-gradient(to bottom, transparent 0, #000 40px); }
+.gb-bubble { flex: 0 0 auto; align-self: flex-start; max-width: 100%; box-sizing: border-box; padding: 6px 10px; border-radius: 8px;
+  background: rgba(236, 120, 140, .62); color: #fff; font: 12px/1.45 'OpenSans', sans-serif; text-shadow: 0 1px 1px rgba(0, 0, 0, .12);
+  word-break: break-word; animation: gb-in .5s ease-out; transition: opacity .8s; }
+.gb-bubble b { font-family: Arial, sans-serif; font-weight: 700; }
+.gb-bubble.gone { opacity: 0; }
+@keyframes gb-in { from { opacity: 0; transform: translateY(14px); } }
+
+.gb-modal { position: fixed; inset: 0; z-index: 3000; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(20, 12, 12, .7); }
+.gb-modal.open { display: flex; }
+.gb-dialog { position: relative; width: min(480px, 100%); max-height: 92vh; overflow: auto; box-sizing: border-box; padding: 22px; border-radius: 16px;
+  background: #fff; color: #3a2e2c; font-family: 'OpenSans', sans-serif; box-shadow: 0 20px 60px rgba(0, 0, 0, .35); }
+.gb-dialog h3 { margin: 0; font: 400 36px 'Aquarelle', cursive; color: #b5485a; }
+.gb-sub { margin: 2px 0 16px; font-size: 13px; color: #8a7e7a; }
+.gb-close { position: absolute; top: 8px; right: 12px; border: 0; background: none; font-size: 32px; line-height: 1; color: #8a7e7a; cursor: pointer; }
+.gb-form { display: flex; flex-direction: column; gap: 10px; }
+.gb-form input, .gb-form textarea { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #e6d9d5; border-radius: 10px;
+  font: 14px 'OpenSans', sans-serif; color: #3a2e2c; resize: vertical; outline: none; }
+.gb-form input:focus, .gb-form textarea:focus { border-color: #b5485a; }
+.gb-form .gb-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.gb-send { padding: 11px; border: 0; border-radius: 30px; background: #b5485a; color: #fff; font: 600 15px 'OpenSans', sans-serif; cursor: pointer; }
+.gb-send:disabled { opacity: .6; cursor: default; }
+.gb-status { margin: 0; min-height: 18px; font-size: 13px; }
+.gb-status.ok { color: #3c8a5a; } .gb-status.err { color: #c22a40; }
+.gb-list { margin-top: 14px; border-top: 1px solid #f0e6e3; padding-top: 10px; }
+.gb-item { padding: 10px 0; border-bottom: 1px dashed #f0e6e3; }
+.gb-head { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
+.gb-head b { color: #b5485a; } .gb-head span { color: #a99c98; font-size: 12px; }
+.gb-item p { margin: 4px 0 0; font-size: 14px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+.gb-empty { color: #a99c98; font-size: 13px; text-align: center; }
+.gb-rsvp-msg { margin: 0; min-height: 1em; font-size: 13px; color: #b5485a; text-align: center; }

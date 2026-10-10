@@ -1,0 +1,35 @@
+/* Hand-drawn venue map (card + popup) */
+.vmap { display: block; width: 100%; height: auto; font-family: 'OpenSans', sans-serif; }
+.vmap-card { position: relative; cursor: pointer; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 16px rgba(80, 40, 40, .12); }
+.vmap-card .vmap { height: 100%; }
+.vmap-hint { position: absolute; left: 8px; bottom: 8px; padding: 3px 10px; border-radius: 20px; background: #b5485a; color: #fff;
+  font: 600 10px 'OpenSans', sans-serif; letter-spacing: .02em; box-shadow: 0 2px 6px rgba(0, 0, 0, .2); }
+.vm-river { font-size: 7px; fill: #3f88a6; font-style: italic; letter-spacing: .05em; }
+.vm-street { font-size: 6.5px; fill: #8a7e7a; }
+.vm-badge { font-size: 6.5px; font-weight: 700; fill: #fff; text-anchor: middle; }
+.vm-poi circle { fill: #fff; stroke: #7d6f6b; stroke-width: 1.4; }
+.vm-poi text { font-size: 7px; fill: #5a4d49; }
+.vm-red circle { stroke: #d6334b; fill: #fde7ea; }
+.vm-red text { fill: #c22a40; }
+.vm-turn { font-size: 7.5px; font-weight: 700; fill: #3a2e2c; }
+.vm-home-t { font-size: 7.5px; font-weight: 700; fill: #b5485a; text-anchor: middle; }
+.vm-home-s { font-size: 6.5px; fill: #6b5d59; text-anchor: middle; }
+.vm-n { font-size: 6px; font-weight: 700; fill: #6b5d59; text-anchor: middle; }
+.vm-route { stroke: #b5485a; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: .1 6.5; animation: vm-march 1.2s linear infinite; }
+@keyframes vm-march { to { stroke-dashoffset: -6.6; } }
+.vm-home { animation: vm-pulse 1.6s ease-in-out infinite; transform-box: fill-box; }
+@keyframes vm-pulse { 50% { opacity: .75; } }
+
+.vmap-modal { position: fixed; inset: 0; z-index: 3000; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(20, 12, 12, .7); }
+.vmap-modal.open { display: flex; }
+.vmap-dialog { position: relative; width: min(760px, 100%); max-height: 94vh; overflow: auto; background: #fff; border-radius: 16px; padding: 22px 22px 20px;
+  font-family: 'OpenSans', sans-serif; color: #3a2e2c; box-shadow: 0 20px 60px rgba(0, 0, 0, .35); }
+.vmap-dialog h3 { margin: 0; font: 400 34px 'Aquarelle', cursive; color: #b5485a; }
+.vmap-addr { margin: 2px 0 14px; font-size: 14px; color: #6b5d59; }
+.vmap-dialog .vmap { border-radius: 10px; border: 1px solid #eee3df; }
+.vmap-dialog ol { margin: 16px 0 18px; padding-left: 22px; font-size: 14px; line-height: 1.6; }
+.vmap-dialog li { margin-bottom: 4px; }
+.vmap-go { display: block; text-align: center; padding: 12px; border-radius: 30px; background: #b5485a; color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; }
+.vmap-go:hover { background: #9c3a4b; }
+.vmap-close { position: absolute; top: 8px; right: 12px; border: 0; background: none; font-size: 32px; line-height: 1; color: #8a7e7a; cursor: pointer; }
+.vmap-dialog b { color: #b5485a; font-weight: 600; }
