@@ -6,12 +6,19 @@
  * Sheets (created automatically on first request):
  *   LoiChuc : Thời gian | Tên | Lời chúc | Ẩn   (put "x" in "Ẩn" to hide a message)
  *   XacNhan : Thời gian | Tên | Tham dự | Số người
+ *
+ * Photo layout (admin page): stored in Script Properties as PHOTO_CONFIG.
+ * Saving requires the ADMIN_KEY script property (Project Settings > Script properties).
  */
 var MAX_NAME = 50;
 var MAX_MESSAGE = 500;
 var LIST_LIMIT = 200;
 
-function doGet() {
+function doGet(e) {
+  if (e && e.parameter && e.parameter.type === 'config') {
+    var raw = PropertiesService.getScriptProperties().getProperty('PHOTO_CONFIG');
+    return json_({ ok: true, config: raw ? JSON.parse(raw) : null });
+  }
   var sheet = getSheet_('LoiChuc', ['Thời gian', 'Tên', 'Lời chúc', 'Ẩn']);
   var rows = sheet.getLastRow() > 1 ? sheet.getRange(2, 1, sheet.getLastRow() - 1, 4).getValues() : [];
   var messages = rows
@@ -28,6 +35,7 @@ function doPost(e) {
     lock.waitLock(10000);
     var data = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (data.website) return json_({ ok: true }); // honeypot field filled => bot, silently ignore
+    if (data.type === 'config' || data.type === 'checkKey') return adminRequest_(data);
 
     var name = clean_(data.name, MAX_NAME);
     if (!name) return json_({ ok: false, error: 'Vui lòng nhập tên' });
@@ -50,6 +58,19 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// Admin: verify the key, and save the photo layout chosen on the admin page.
+function adminRequest_(data) {
+  var props = PropertiesService.getScriptProperties();
+  var key = props.getProperty('ADMIN_KEY');
+  if (!key) return json_({ ok: false, error: 'Chưa đặt ADMIN_KEY trong Script properties' });
+  if (String(data.key || '') !== key) return json_({ ok: false, error: 'Sai mật khẩu' });
+  if (data.type === 'checkKey') return json_({ ok: true });
+  var text = JSON.stringify(data.config || {});
+  if (text.length > 8500) return json_({ ok: false, error: 'Cấu hình quá lớn' });
+  props.setProperty('PHOTO_CONFIG', text);
+  return json_({ ok: true });
 }
 
 // Trim, cap length, and neutralise spreadsheet formulas (=, +, -, @ prefixes).

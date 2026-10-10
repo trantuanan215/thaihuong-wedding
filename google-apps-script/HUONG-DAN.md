@@ -45,3 +45,21 @@ File `CNAME` trong repo đã khai báo sẵn tên miền. Ở trang quản lý D
 | CNAME | www | `<tên-tài-khoản>.github.io` |
 
 Sau đó vào repo → **Settings → Pages**: ô *Custom domain* hiện `thaihuong-wedding.io.vn`, đợi DNS cập nhật rồi tick **Enforce HTTPS**.
+
+# Trang quản lý ảnh (admin)
+Trang: `https://thaihuong-wedding.io.vn/quan-ly-anh.html` (không có nút nào trỏ tới từ thiệp, Google không index).
+Cho phép chọn ảnh từ thư viện có sẵn cho từng khung ảnh của Theme 1 / Theme 2 và đổi thứ tự album. Không upload ảnh.
+
+## Cài đặt (1 lần)
+1. Mở Apps Script → dán lại toàn bộ code mới từ `guestbook-backend.gs` → **Lưu**.
+2. **Cài đặt dự án (⚙️ Project Settings) → Script properties → Thêm thuộc tính**:
+   - Thuộc tính: `ADMIN_KEY`
+   - Giá trị: mật khẩu admin bạn tự đặt (đừng chia sẻ)
+3. **Triển khai → Quản lý triển khai → ✏️ → Phiên bản: Phiên bản mới → Triển khai** (giữ nguyên URL).
+
+## Sử dụng
+- Đăng nhập bằng mật khẩu `ADMIN_KEY`, chọn tab Theme 2 / Theme 1 / Album.
+- **Đổi ảnh**: chọn ảnh khác cho khung; **thanh trượt**: chỉnh phần ảnh hiển thị (trên ↔ dưới); **Mặc định**: trả về ảnh gốc.
+- **Album**: kéo thả (máy tính) hoặc ◀ ▶ (điện thoại).
+- Bấm **Lưu thay đổi** — khách mở thiệp thấy ngay, không cần sửa code.
+- Cấu hình được lưu trong Script properties với tên `PHOTO_CONFIG`; xoá thuộc tính này = về toàn bộ mặc định.

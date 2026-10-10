@@ -119,6 +119,8 @@
   // ---------- Pill button: show / hide floating guest messages ----------
   var toggle = document.querySelector('.toolbar-toggle-button');
   var box = document.getElementById('blessing-box');
+  var avatar = toggle && toggle.querySelector('.thumbnail');
+  if (avatar) { avatar.src = 'assets/mascot/avatar.webp'; avatar.alt = 'Cô dâu chú rể'; avatar.removeAttribute('title'); }
   if (toggle && box) {
     var oldIcon = toggle.querySelector('.icon-svg');
     var closeIcon = icon(['M18 6 6 18', 'm6 6 12 12']);

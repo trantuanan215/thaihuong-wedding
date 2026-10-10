@@ -70,27 +70,45 @@
   var track = section.querySelector('.album-track');
   var thumbs = section.querySelector('.album-thumbs');
   var count = section.querySelector('.album-count');
-  photos.forEach(function (p, i) {
-    var slide = el('div', 'album-slide');
-    var img = el('img');
-    img.src = large(p);
-    img.loading = 'lazy';
-    img.alt = 'Ảnh cưới ' + (i + 1);
-    if (p.w > p.h) {
-      img.className = 'landscape';
-      slide.className += ' blur-bg';
-      slide.style.backgroundImage = 'url(' + thumb(p) + ')';
-    }
-    slide.appendChild(img);
-    slide.onclick = function () { lbOpen(i); };
-    track.appendChild(slide);
+  function render() {
+    track.textContent = '';
+    thumbs.textContent = '';
+    photos.forEach(function (p, i) {
+      var slide = el('div', 'album-slide');
+      var img = el('img');
+      img.src = large(p);
+      img.loading = 'lazy';
+      img.alt = 'Ảnh cưới ' + (i + 1);
+      if (p.w > p.h) {
+        img.className = 'landscape';
+        slide.className += ' blur-bg';
+        slide.style.backgroundImage = 'url(' + thumb(p) + ')';
+      }
+      slide.appendChild(img);
+      slide.onclick = function () { lbOpen(i); };
+      track.appendChild(slide);
 
-    var t = el('button', 'album-thumb');
-    t.style.backgroundImage = 'url(' + thumb(p) + ')';
-    t.setAttribute('aria-label', 'Ảnh ' + (i + 1));
-    t.onclick = function () { stopAuto(); go(i); };
-    thumbs.appendChild(t);
-  });
+      var t = el('button', 'album-thumb');
+      t.style.backgroundImage = 'url(' + thumb(p) + ')';
+      t.setAttribute('aria-label', 'Ảnh ' + (i + 1));
+      t.onclick = function () { stopAuto(); go(i); };
+      thumbs.appendChild(t);
+    });
+  }
+  render();
+
+  // Reorder the album (admin photo layout): known names first in the given order, the rest keep theirs
+  window.setAlbumOrder = function (names) {
+    var byName = {};
+    window.ALBUM_PHOTOS.forEach(function (p) { byName[p.name] = p; });
+    var ordered = (names || []).filter(function (n) { return byName[n]; }).map(function (n) { return byName[n]; });
+    window.ALBUM_PHOTOS.forEach(function (p) { if (ordered.indexOf(p) < 0) ordered.push(p); });
+    photos = ordered;
+    render();
+    current = -1;
+    track.scrollLeft = 0;
+    update();
+  };
 
   var current = 0;
   function go(i) {

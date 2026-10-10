@@ -1,0 +1,47 @@
+/* Admin photo layout page */
+:root { --rose: #b5485a; --ink: #3a2e2c; --muted: #8a7e7a; --line: #eadfdc; --bg: #faf6f4; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding-bottom: 76px; }
+.top { padding: 20px 16px 8px; text-align: center; }
+.top h1 { margin: 0; font-size: 22px; color: var(--rose); }
+.sub { margin: 4px 0 0; color: var(--muted); }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+.login { max-width: 360px; margin: 24px auto; }
+.login form { display: flex; flex-direction: column; gap: 10px; }
+.login input[type=password] { padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; font-size: 15px; }
+.remember { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+.btn { padding: 9px 16px; border: 1px solid var(--rose); border-radius: 22px; background: #fff; color: var(--rose); font-weight: 600; cursor: pointer; text-decoration: none; font-size: 13px; }
+.btn.primary { background: var(--rose); color: #fff; }
+.btn.ghost { border-color: var(--line); color: var(--ink); }
+.btn:active { transform: scale(.97); }
+#app { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+.tabs { display: flex; gap: 6px; position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0; overflow-x: auto; }
+.tab { flex: 0 0 auto; padding: 9px 16px; border: 1px solid var(--line); border-radius: 22px; background: #fff; cursor: pointer; font-weight: 600; color: var(--ink); }
+.tab.active { background: var(--rose); border-color: var(--rose); color: #fff; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 6px 0 12px; }
+.hint { margin: 0; color: var(--muted); }
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+.slot { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+.slot-preview { width: 100%; max-height: 260px; border-radius: 8px; background: #eee center / cover no-repeat; }
+.slot-title { margin: 2px 0 0; font-weight: 700; }
+.slot-meta { margin: 0; color: var(--muted); font-size: 12px; }
+.slot input[type=range] { width: 100%; accent-color: var(--rose); }
+.slot-actions { display: flex; gap: 6px; }
+.slot-actions .btn { flex: 1; }
+.album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+.album-item { position: relative; aspect-ratio: 2 / 3; border-radius: 10px; background: #eee center / cover no-repeat; cursor: grab; border: 2px solid transparent; }
+.album-item.dragging { opacity: .4; border-color: var(--rose); }
+.album-no { position: absolute; top: 6px; left: 6px; min-width: 22px; padding: 1px 6px; border-radius: 11px; background: rgba(0, 0, 0, .55); color: #fff; font-size: 12px; text-align: center; }
+.album-mv { position: absolute; left: 6px; right: 6px; bottom: 6px; display: flex; justify-content: space-between; }
+.mv { width: 30px; height: 30px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .9); cursor: pointer; font-size: 13px; }
+.bar { position: fixed; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px;
+  background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -4px 16px rgba(0, 0, 0, .05); }
+.status { color: var(--muted); font-size: 13px; }
+.status.ok { color: #2f8a55; } .status.err { color: #c22a40; } .status.warn { color: #b7791f; }
+.picker { position: fixed; inset: 0; z-index: 20; background: rgba(20, 12, 12, .6); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.picker[hidden], #app[hidden], .login[hidden] { display: none; }
+.picker-box { background: #fff; border-radius: 14px; width: min(900px, 100%); max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
+.picker-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.picker-grid { overflow-y: auto; padding: 12px; display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.pick { aspect-ratio: 2 / 3; border: 2px solid transparent; border-radius: 8px; background: #eee center / cover no-repeat; cursor: pointer; }
+.pick:hover { border-color: var(--rose); }

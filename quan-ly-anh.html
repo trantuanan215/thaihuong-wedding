@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Quản lý ảnh thiệp cưới</title>
+<link rel="stylesheet" href="admin-photo.css?v=1"/>
+</head>
+<body>
+<header class="top">
+  <h1>Quản lý ảnh thiệp cưới</h1>
+  <p class="sub">Quốc Thái &amp; Lan Hương · chọn ảnh cho từng khung và thứ tự album</p>
+</header>
+
+<section id="login" class="card login">
+  <form id="login-form" autocomplete="on">
+    <label for="key">Mật khẩu admin</label>
+    <input id="key" type="password" autocomplete="current-password" required/>
+    <label class="remember"><input id="remember" type="checkbox"/> Ghi nhớ trên máy này</label>
+    <button class="btn primary" type="submit">Đăng nhập</button>
+  </form>
+</section>
+
+<main id="app" hidden>
+  <nav class="tabs">
+    <button class="tab" data-tab="theme2">Theme 2 (mặc định)</button>
+    <button class="tab" data-tab="theme1">Theme 1</button>
+    <button class="tab" data-tab="album">Album</button>
+  </nav>
+  <section id="panel"></section>
+</main>
+
+<footer class="bar">
+  <span id="status" class="status"></span>
+  <button id="save" class="btn primary">Lưu thay đổi</button>
+</footer>
+
+<div id="picker" class="picker" hidden>
+  <div class="picker-box">
+    <div class="picker-head"><strong>Chọn ảnh từ thư viện</strong><button id="picker-close" class="btn ghost">Đóng</button></div>
+    <div id="picker-grid" class="picker-grid"></div>
+  </div>
+</div>
+
+<script src="album-data.js?v=1"></script>
+<script src="guestbook-config.js?v=1"></script>
+<script src="admin-photo-data.js?v=1"></script>
+<script src="admin-photo-ui.js?v=1"></script>
+</body>
+</html>
