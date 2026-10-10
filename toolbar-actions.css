@@ -50,3 +50,9 @@
 .theme-switch:hover { background: #fff; transform: scale(1.06); }
 .theme-switch-dot { position: absolute; right: -3px; bottom: -3px; min-width: 13px; height: 13px; border-radius: 7px; background: #b5485a; color: #fff;
   font: 700 9px/13px Arial, sans-serif; text-align: center; }
+
+/* Directions shortcut (replaces the gift box) */
+#cinelove-gift-button.map-shortcut { background: linear-gradient(#5aa1e8, #2f6db5) !important; animation: none !important; border-radius: 50% !important;
+  display: flex; align-items: center; justify-content: center; color: #fff; box-shadow: 0 2px 8px rgba(47, 109, 181, .35); }
+#cinelove-gift-button.map-shortcut svg { width: 20px; height: 20px; }
+#cinelove-gift-button.map-shortcut:active { transform: scale(.92); }

@@ -1,0 +1,9 @@
+/* Theme 2: invitation letter inside the animated cover envelope */
+.envelope-container .letter { background: center 35% / cover no-repeat url(assets/album/large/dat_1343.jpg); }
+.envelope-container .letter::before { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(30, 22, 16, .55), rgba(30, 22, 16, .35) 60%, rgba(30, 22, 16, .15)); }
+.invite-letter { position: absolute; left: 0; right: 0; top: 2%; z-index: 1; text-align: center; color: #fff; text-shadow: 0 1px 6px rgba(0, 0, 0, .45); }
+.invite-letter p { margin: 0; }
+.invite-kicker { display: inline-block; padding: 0 18px 4px; border-bottom: 1px solid rgba(255, 255, 255, .8); font: 700 15px 'PlayfairDisplay', serif; letter-spacing: .04em; }
+.invite-names { margin-top: 4px !important; font: 400 30px/1.15 'HoaTay1', 'Signora', cursive; }
+.invite-date { margin-top: 4px !important; font: 700 14px 'PlayfairDisplay', serif; letter-spacing: .18em; }
+.invite-guest { margin-top: 5px !important; font: italic 400 13px 'Signora', 'PlayfairDisplay', serif; color: #f7d774; }

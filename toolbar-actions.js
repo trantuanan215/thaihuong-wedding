@@ -73,8 +73,17 @@
   var qrImage = document.querySelector('.gift-qr-image');
   var qrCard = qrImage && qrImage.closest('[data-node-id]');
   if (gift) {
-    gift.title = 'Gửi quà mừng';
-    gift.addEventListener('click', function () { jumpTo(qrCard); });
+    // The gift-box slot becomes a directions shortcut: inline map on theme 1, venue + map popup on theme 2
+    gift.className = 'map-shortcut';
+    gift.title = 'Chỉ đường';
+    gift.setAttribute('role', 'button');
+    gift.setAttribute('aria-label', 'Chỉ đường');
+    gift.appendChild(icon(['M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z', 'M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z']));
+    gift.addEventListener('click', function () {
+      var mapCard = document.querySelector('.vmap-card');
+      if (mapCard) return jumpTo(mapCard);
+      jumpTo(document.querySelector('.venue-anchor'), window.openVenueMap);
+    });
 
     // Red-envelope shortcut next to the gift box, also jumping to the QR card
     var envelope = document.createElement('div');
