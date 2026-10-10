@@ -34,41 +34,48 @@
   audio.loop = true;
   btn.setAttribute('role', 'button');
   btn.setAttribute('tabindex', '0');
-  // update the icon immediately on tap; the audio may still be loading on a slow connection
-  function setUI(playing) {
-    btn.classList.toggle('paused', !playing);
-    btn.setAttribute('aria-label', playing ? 'Tắt nhạc' : 'Bật nhạc');
-    btn.setAttribute('aria-pressed', String(playing));
+  // Music is ON by default. The icon follows the guest's intent, not the element state, because
+  // browsers block audible autoplay until the first tap: until then the icon shows ON and the
+  // first tap anywhere (or on the button) starts the music.
+  var musicOn = true;
+  function setUI(on) {
+    musicOn = on;
+    btn.classList.toggle('paused', !on);
+    btn.setAttribute('aria-label', on ? 'Tắt nhạc' : 'Bật nhạc');
+    btn.setAttribute('aria-pressed', String(on));
   }
   function play() {
     setUI(true);
     var pending = audio.play();
-    if (pending) pending.catch(function () { setUI(false); });
+    if (pending) pending.catch(function () {});   // still blocked: keep ON, the next tap retries
   }
   function pause() { audio.pause(); setUI(false); }
   function toggle(ev) {
     ev.stopPropagation();
     ev.preventDefault();
+    // ON but silent (autoplay blocked) -> this tap should start the music, not turn it off
     audio.paused ? play() : pause();
   }
   btn.addEventListener('click', toggle);
   btn.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') toggle(ev); });
-  audio.addEventListener('play', function () { setUI(true); });
-  audio.addEventListener('pause', function () { setUI(false); });
-  setUI(false);
-  // Autoplay is usually blocked: start on the first tap/key anywhere, except a tap on the music
-  // button itself (its own click handles it; otherwise that tap would start then stop the music).
+  setUI(true);
+  // First tap/key anywhere starts the music if the guest has not turned it off.
   // pointerup, not pointerdown: on touch screens the browser grants playback permission on release.
+  function firstGesture(ev) {
+    if (btn.contains(ev.target)) return;            // the button's own click handles it
+    if (!audio.paused || !musicOn) return stopListening();
+    var pending = audio.play();
+    if (pending) pending.then(stopListening, function () {});
+    else stopListening();
+  }
+  function stopListening() {
+    document.removeEventListener('pointerup', firstGesture, true);
+    document.removeEventListener('keydown', firstGesture, true);
+  }
+  document.addEventListener('pointerup', firstGesture, true);
+  document.addEventListener('keydown', firstGesture, true);
   var pendingAutoplay = audio.play();
-  if (pendingAutoplay) pendingAutoplay.then(function () { setUI(true); }, function () {
-    function once(ev) {
-      document.removeEventListener('pointerup', once, true);
-      document.removeEventListener('keydown', once, true);
-      if (!btn.contains(ev.target) && audio.paused) play();
-    }
-    document.addEventListener('pointerup', once, true);
-    document.addEventListener('keydown', once, true);
-  });
+  if (pendingAutoplay) pendingAutoplay.then(stopListening, function () {});
 
   // Countdown: days / hours / minutes / seconds until the ceremony
   var cd = document.querySelector('.countdown');
