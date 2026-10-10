@@ -1,8 +1,8 @@
 // Theme switch button next to the music toggle: cycles through the invitation designs.
 (function () {
   var THEMES = [
-    { href: './', file: 'index.html', name: 'Giao diện 1' },
-    { href: 'theme-2.html', file: 'theme-2.html', name: 'Giao diện 2' }
+    { href: 'theme-1.html', file: 'theme-1.html', name: 'Giao diện 1' },
+    { href: './', file: 'index.html', name: 'Giao diện 2' }
   ];
   var app = document.getElementById('app-view-index');
   if (!app) return;

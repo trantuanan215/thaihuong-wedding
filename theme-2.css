@@ -1,6 +1,6 @@
 /* Theme 2: invitation letter inside the animated cover envelope */
-.envelope-container .letter { background: center 35% / cover no-repeat url(assets/album/large/dat_1343.jpg); }
-.envelope-container .letter::before { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(30, 22, 16, .55), rgba(30, 22, 16, .35) 60%, rgba(30, 22, 16, .15)); }
+.envelope-container .letter { background: #2e2620 url(assets/img/afff8329-cd26-4fc8-abd8-cc74e38a0a26-b49d344f.jpg) center 38px / 100% auto no-repeat; }
+.envelope-container .letter::before { content: ''; position: absolute; inset: 0; background: linear-gradient(#2e2620 14%, rgba(46, 38, 32, .78) 30%, rgba(46, 38, 32, .25) 48%, rgba(46, 38, 32, 0) 60%); }
 .invite-letter { position: absolute; left: 0; right: 0; top: 2%; z-index: 1; text-align: center; color: #fff; text-shadow: 0 1px 6px rgba(0, 0, 0, .45); }
 .invite-letter p { margin: 0; }
 .invite-kicker { display: inline-block; padding: 0 18px 4px; border-bottom: 1px solid rgba(255, 255, 255, .8); font: 700 15px 'PlayfairDisplay', serif; letter-spacing: .04em; }
