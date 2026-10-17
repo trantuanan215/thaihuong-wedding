@@ -61,7 +61,7 @@
       // wait for the page scripts (photo-config.js exposes applyPhotoConfig at the end of the body)
       var tries = 0;
       (function ready() {
-        if (frame.contentWindow.applyPhotoConfig || tries++ > 40) return AdminVisual.attach(frame, themeId, state.slots[themeId], state, markDirty);
+        if (frame.contentWindow.applyPhotoConfig || tries++ > 150) return AdminVisual.attach(frame, themeId, state.slots[themeId], state, markDirty);
         setTimeout(ready, 100);
       })();
     };

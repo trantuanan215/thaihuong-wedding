@@ -57,6 +57,10 @@
     };
     clickable(node('FlIA12U-JR'), toggle);
     if (window.WEDDING_EDIT_MODE) toggle();   // photo admin: show the letter so its photo can be edited
+    // the tap that opens the invitation also opens the envelope (the guest may have tapped before this script ran)
+    var openEnvelope = function () { if (envelope.classList.contains('close')) toggle(); };
+    if (window.WEDDING_GATE_OPEN === true && !window.WEDDING_EDIT_MODE) setTimeout(openEnvelope, 300);
+    else if (window.WEDDING_GATE_OPEN === false) document.addEventListener('wedding:opened', function () { setTimeout(openEnvelope, 450); });
     clickable(hint, toggle);
   }
 

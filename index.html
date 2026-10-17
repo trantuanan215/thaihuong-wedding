@@ -14,8 +14,29 @@
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <link rel="icon" href="assets/img/audio-1.png"/>
-<link rel="stylesheet" href="opening-gate.css?v=20261017c"/>
-<link rel="stylesheet" href="assets/css/4456bc88e19c483a.css"/><link rel="stylesheet" href="assets/css/bdc5aa70fb679b30.css"/>
+<style id="opening-gate-css">/* Opening screen: one tap opens the invitation and starts the music (browsers block autoplay until a tap) */
+.opening-gate { position: fixed; inset: 0; z-index: 4000; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  background: #2b2220; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.opening-gate.edit-mode { display: none; }
+.opening-gate-bg { position: absolute; inset: -20px; background: center 30% / cover no-repeat url(assets/album/thumb/dat_1176.jpg);
+  filter: blur(6px) brightness(.55); transform: scale(1.05); }
+.opening-gate-inner { position: relative; text-align: center; color: #fff; padding: 24px; max-width: 420px; }
+.opening-gate-kicker { margin: 0; font: 600 12px/1.4 -apple-system, 'Segoe UI', sans-serif; letter-spacing: .4em; text-transform: uppercase; opacity: .9; }
+.opening-gate-names { margin: 10px 0 4px; font: 400 46px/1.15 'Aquarelle', 'HoaTay1', cursive; color: #f3dd9a; text-shadow: 0 2px 12px rgba(0, 0, 0, .5); }
+.opening-gate-date { margin: 0; font: 600 15px/1.4 -apple-system, 'Segoe UI', sans-serif; letter-spacing: .25em; }
+.opening-gate-mascot { display: block; height: 170px; margin: 20px auto 10px; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .4));
+  animation: gate-bob 2s ease-in-out infinite; }
+.opening-gate-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; padding: 14px 30px; border: 0; border-radius: 32px;
+  background: #fff; color: #b5485a; font: 700 16px -apple-system, 'Segoe UI', sans-serif; cursor: pointer;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .35); animation: gate-pulse 1.8s ease-in-out infinite; }
+.opening-gate-hint { margin: 14px 0 0; font: 13px -apple-system, 'Segoe UI', sans-serif; opacity: .8; }
+.opening-gate.closing { animation: gate-out .6s ease-in forwards; pointer-events: none; }
+@keyframes gate-bob { 50% { transform: translateY(-8px); } }
+@keyframes gate-pulse { 50% { transform: scale(1.05); box-shadow: 0 6px 30px rgba(255, 255, 255, .35); } }
+@keyframes gate-out { to { opacity: 0; transform: scale(1.06); } }
+@media (prefers-reduced-motion: reduce) { .opening-gate-mascot, .opening-gate-btn { animation: none; } .opening-gate.closing { animation-duration: .01s; } }
+</style>
+<link rel="stylesheet" href="assets/css/4456bc88e19c483a.css" media="print" data-defer-css onload="this.media='all';window.__cssReady&&window.__cssReady()" onerror="this.media='all';window.__cssReady&&window.__cssReady()"/><link rel="stylesheet" href="assets/css/bdc5aa70fb679b30.css" media="print" data-defer-css onload="this.media='all';window.__cssReady&&window.__cssReady()" onerror="this.media='all';window.__cssReady&&window.__cssReady()"/>
 <style>@font-face{font-family:'Aquarelle';src:url('assets/theme-2/fonts/aquarelle.woff2') format('woff2'),url('assets/theme-2/fonts/aquarelle.woff') format('woff');font-display:swap}@font-face{font-family:'Carlytte';src:url('assets/theme-2/fonts/carlytte.woff2') format('woff2'),url('assets/theme-2/fonts/carlytte.woff') format('woff');font-display:swap}@font-face{font-family:'HoaTay1';src:url('assets/theme-2/fonts/hoatay1.woff2') format('woff2'),url('assets/theme-2/fonts/hoatay1.woff') format('woff');font-display:swap}@font-face{font-family:'Monsieur La Doulaise';src:url('assets/theme-2/fonts/monsieur-la-doulaise.woff2') format('woff2'),url('assets/theme-2/fonts/monsieur-la-doulaise.woff') format('woff');font-display:swap}@font-face{font-family:'PlayfairDisplay';src:url('assets/theme-2/fonts/playfairdisplay.woff2') format('woff2'),url('assets/theme-2/fonts/playfairdisplay.woff') format('woff');font-display:swap}@font-face{font-family:'Quicksand';src:url('assets/theme-2/fonts/quicksand.woff2') format('woff2'),url('assets/theme-2/fonts/quicksand.woff') format('woff');font-display:swap}@font-face{font-family:'Scarlet Bradley.regular';src:url('assets/theme-2/fonts/scarlet-bradleyregular.woff2') format('woff2'),url('assets/theme-2/fonts/scarlet-bradleyregular.woff') format('woff');font-display:swap}@font-face{font-family:'Signora';src:url('assets/theme-2/fonts/signora.woff2') format('woff2'),url('assets/theme-2/fonts/signora.woff') format('woff');font-display:swap}@font-face{font-family:'Soul Note Display';src:url('assets/theme-2/fonts/soul-note-display.woff2') format('woff2'),url('assets/theme-2/fonts/soul-note-display.woff') format('woff');font-display:swap}@font-face{font-family:'Summerfun';src:url('assets/theme-2/fonts/summerfun.woff2') format('woff2'),url('assets/theme-2/fonts/summerfun.woff') format('woff');font-display:swap}@font-face{font-family:'The Artisan';src:url('assets/theme-2/fonts/the-artisan.woff2') format('woff2'),url('assets/theme-2/fonts/the-artisan.woff') format('woff');font-display:swap}</style>
 <style id="__jsx-3522513885">#audio-control-wrapper.jsx-3522513885{position:absolute;right:10px;top:10px;z-index:1000;width:30px;height:30px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}.audio-toggle.jsx-3522513885{width:100%;height:100%;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;background:rgba(165,165,165,0.2);border-radius:50%;overflow:hidden;}.audio-toggle.mrotate.jsx-3522513885{-webkit-animation:mrotate-jsx-3522513885 5s linear infinite;animation:mrotate-jsx-3522513885 5s linear infinite;}.music-icon.jsx-3522513885{display:block;width:100%;height:100%;background:#000;}.icon-cancel.jsx-3522513885{position:absolute;width:100%;height:100%;border-radius:50%;overflow:hidden;padding-top:15px;}.icon-line.jsx-3522513885{-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg);width:100%;height:1px;background:#fff;}@-webkit-keyframes mrotate-jsx-3522513885{to{-webkit-transform:rotate(1turn);-ms-transform:rotate(1turn);transform:rotate(1turn);}}@keyframes mrotate-jsx-3522513885{to{-webkit-transform:rotate(1turn);-ms-transform:rotate(1turn);transform:rotate(1turn);}}</style>
 <style id="__jsx-1944329802">.photo-component.jsx-1944329802{width:100%;height:100%;}.photo-component.jsx-1944329802 img.jsx-1944329802{width:100%;height:100%;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;}.photo-component.jsx-1944329802 .photo-bg-wrap.jsx-1944329802{width:100%;height:100%;background-size:cover;background-position:50% 50%;background-repeat:no-repeat;background-clip:border-box;}</style>
@@ -109,12 +130,12 @@
       0 -9px 28px 8px rgba(0, 0, 0, 0.05)
     ;--ant-box-shadow-tabs-overflow-left:inset 10px 0 8px -8px rgba(0, 0, 0, 0.08);--ant-box-shadow-tabs-overflow-right:inset -10px 0 8px -8px rgba(0, 0, 0, 0.08);--ant-box-shadow-tabs-overflow-top:inset 0 10px 8px -8px rgba(0, 0, 0, 0.08);--ant-box-shadow-tabs-overflow-bottom:inset 0 -10px 8px -8px rgba(0, 0, 0, 0.08);}.anticon{display:inline-flex;align-items:center;color:inherit;font-style:normal;line-height:0;text-align:center;text-transform:none;vertical-align:-0.125em;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}.anticon >*{line-height:1;}.anticon svg{display:inline-block;}.anticon .anticon .anticon-icon{display:block;}.data-ant-cssinjs-cache-path{content:"|ant-design-icons|anticon:eugadl;|Shared|ant:1l0drjh;|Spin-Spin|ant-spin|anticon:1bq9ok6;|Radio-Radio|ant-radio|anticon:lib6kc;|Wave-Wave|ant-wave|anticon:13y5j5m;|Button-Button|ant-btn|anticon:1f4ddw3";}</style>
 
-<link rel="stylesheet" href="local.css?v=20261017c"/>
-<link rel="stylesheet" href="album.css?v=20261017c"/>
-<link rel="stylesheet" href="desktop.css?v=20261017c"/>
-<link rel="stylesheet" href="venue-map.css?v=20261017c"/>
-<link rel="stylesheet" href="guestbook.css?v=20261017c"/>
-<link rel="stylesheet" href="toolbar-actions.css?v=20261017c"/><link rel="stylesheet" href="mascot-effects.css?v=20261017c"/><link rel="stylesheet" href="gold-names.css?v=20261017c"/><link rel="stylesheet" href="theme-2.css?v=20261017c"/>
+<link rel="stylesheet" href="local.css?v=20261017e" media="print" data-defer-css onload="this.media='all';window.__cssReady&&window.__cssReady()" onerror="this.media='all';window.__cssReady&&window.__cssReady()"/>
+<link rel="stylesheet" href="album.css?v=20261017e" media="print" data-defer-css onload="this.media='all';window.__cssReady&&window.__cssReady()" onerror="this.media='all';window.__cssReady&&window.__cssReady()"/>
+<link rel="stylesheet" href="desktop.css?v=20261017e" media="print" data-defer-css onload="this.media='all';window.__cssReady&&window.__cssReady()" onerror="this.media='all';window.__cssReady&&window.__cssReady()"/>
+<link rel="stylesheet" href="venue-map.css?v=20261017e" media="print" data-defer-css onload="this.media='all';window.__cssReady&&window.__cssReady()" onerror="this.media='all';window.__cssReady&&window.__cssReady()"/>
+<link rel="stylesheet" href="guestbook.css?v=20261017e" media="print" data-defer-css onload="this.media='all';window.__cssReady&&window.__cssReady()" onerror="this.media='all';window.__cssReady&&window.__cssReady()"/>
+<link rel="stylesheet" href="toolbar-actions.css?v=20261017e" media="print" data-defer-css onload="this.media='all';window.__cssReady&&window.__cssReady()" onerror="this.media='all';window.__cssReady&&window.__cssReady()"/><link rel="stylesheet" href="mascot-effects.css?v=20261017e" media="print" data-defer-css onload="this.media='all';window.__cssReady&&window.__cssReady()" onerror="this.media='all';window.__cssReady&&window.__cssReady()"/><link rel="stylesheet" href="gold-names.css?v=20261017e" media="print" data-defer-css onload="this.media='all';window.__cssReady&&window.__cssReady()" onerror="this.media='all';window.__cssReady&&window.__cssReady()"/><link rel="stylesheet" href="theme-2.css?v=20261017e" media="print" data-defer-css onload="this.media='all';window.__cssReady&&window.__cssReady()" onerror="this.media='all';window.__cssReady&&window.__cssReady()"/>
 </head>
 <body>
 <audio id="wedding-audio" src="assets/audio/vay-cuoi-erik-web.mp3" preload="auto" loop></audio>
@@ -529,21 +550,30 @@ Sự hiện diện của bạn chính là món quà ý nghĩa nhất, và chúng
                   0px 
                   0px 
                   0px" class="jsx-1944329802 photo-bg-wrap"></div></div></div></div></div></div><span><div class="workarea-resize-handle" style="position:absolute;user-select:none;width:100%;height:10px;bottom:-5px;left:0px;cursor:row-resize"></div></span></div></div></div><div id="blessing-box" style="opacity:0" class="jsx-3895218497"></div><div id="cinelove-toolbar" class="jsx-1401461546"><div class="jsx-1401461546 toolbar"><div class="jsx-831523885 toolbar-left"><div class="jsx-831523885 message-box-button"><span style="display:inline-block;width:calc(100% - 24px)" class="jsx-831523885">Gửi lời chúc...</span><img style="height:24px;vertical-align:middle" src="assets/theme-2/img/message.24f9a1e2.png" class="jsx-831523885"/></div></div><div class="jsx-2074202128 toolbar-right"><div id="animation-gift-preview-btn" class="jsx-2074202128"><img src="assets/theme-2/img/biubiu.png" class="jsx-2074202128"/><span class="jsx-2074202128">Bắn tim</span></div><div id="cinelove-gift-button" class="jsx-2074202128"></div><div id="cinelove-like-button" class="jsx-2074202128 like-button "></div></div></div></div><div class="jsx-2770182321 received-gifts-wrapper"></div><div id="cinelove-animation-box" class="jsx-848010737"><canvas id="cinelove-canvas" class="jsx-848010737"></canvas><canvas id="cinelove-canvas-preview" class="jsx-848010737"></canvas></div><div role="button" tabindex="0" aria-label="Đóng thanh công cụ" class="jsx-773491098 toolbar-toggle-button toolbar-toggle-has-thumbnail"><div class="jsx-773491098 toolbar-toggle-pill"><img alt="Thiệp cưới 48" title="Thiệp cưới 48" loading="lazy" width="36" height="36" decoding="async" src="assets/theme-2/img/f3535e6f-3a2c-467f-a6a2-b2291f3561f0-f9fd5dac.png" class="jsx-773491098 thumbnail"/><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="jsx-773491098 icon-svg"><path d="M18 6 6 18" class="jsx-773491098"></path><path d="m6 6 12 12" class="jsx-773491098"></path></svg></div></div><div class="jsx-773491098 watermark"><div class="jsx-773491098 watermark-content"><span style="font-size:12px;letter-spacing:1px" class="jsx-773491098">From An with <span class="jsx-773491098 watermark-link">Love</span></span></div></div></div></div></div></div></div></div>
-<script src="album-data.js?v=20261017c"></script>
-<script src="local.js?v=20261017c"></script>
-<script src="lazy-images.js?v=20261017c"></script>
-<script src="album-slider.js?v=20261017c"></script>
-<script src="venue-map.js?v=20261017c"></script>
-<script src="guestbook-config.js?v=20261017c"></script>
-<script src="rsvp-date-card.js?v=20261017c"></script>
-<script src="guestbook.js?v=20261017c"></script>
-<script src="gift-qr-zoom.js?v=20261017c"></script>
-<script src="toolbar-actions.js?v=20261017c"></script>
-<script src="theme-2-actions.js?v=20261017c"></script>
-<script src="mascot-effects.js?v=20261017c"></script>
-<script src="falling-petals.js?v=20261017c"></script>
-<script src="photo-config.js?v=20261017c"></script>
-<script src="theme-switcher.js?v=20261017c"></script>
-<script src="desktop-layout.js?v=20261017c"></script>
+<script>
+/* Boot: the page stylesheets load in the background (only the opening screen is styled inline, so it
+   paints at once); the page scripts run in order once those stylesheets are in, because several of
+   them measure the layout. */
+(function () {
+  var scripts = ["album-data.js?v=20261017e", "local.js?v=20261017e", "lazy-images.js?v=20261017e", "album-slider.js?v=20261017e", "venue-map.js?v=20261017e", "guestbook-config.js?v=20261017e", "rsvp-date-card.js?v=20261017e", "guestbook.js?v=20261017e", "gift-qr-zoom.js?v=20261017e", "toolbar-actions.js?v=20261017e", "theme-2-actions.js?v=20261017e", "mascot-effects.js?v=20261017e", "falling-petals.js?v=20261017e", "photo-config.js?v=20261017e", "theme-switcher.js?v=20261017e", "desktop-layout.js?v=20261017e"];
+  var links = [].slice.call(document.querySelectorAll('link[data-defer-css]'));
+  var started = false;
+  function run() {
+    if (started) return;
+    started = true;
+    scripts.forEach(function (src) {
+      var s = document.createElement('script');
+      s.src = src;
+      s.async = false;             // keep execution order
+      document.body.appendChild(s);
+    });
+  }
+  function check() { if (links.every(function (l) { return l.media === 'all'; })) run(); }
+  links.forEach(function (l) { if (l.sheet && l.media !== 'all') l.media = 'all'; });
+  window.__cssReady = check;
+  check();
+  setTimeout(function () { links.forEach(function (l) { l.media = 'all'; }); run(); }, 10000);   // never stay stuck
+})();
+</script>
 </body>
 </html>

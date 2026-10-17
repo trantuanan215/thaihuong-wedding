@@ -110,7 +110,9 @@
     }
     // with the opening screen, start scrolling only once the guest has opened the invitation
     function begin() { last = performance.now(); requestAnimationFrame(step); }
-    if (window.WEDDING_GATE_OPEN === false) document.addEventListener('wedding:opened', function () { setTimeout(begin, 800); });
-    else begin();
+    // give the guest time to watch the envelope open (theme 2) before the page starts moving
+    var HOLD = document.querySelector('.envelope-container') ? 4500 : 1500;
+    if (window.WEDDING_GATE_OPEN === false) document.addEventListener('wedding:opened', function () { setTimeout(begin, HOLD); });
+    else setTimeout(begin, window.WEDDING_GATE_OPEN === true ? HOLD : 0);
   }
 })();
