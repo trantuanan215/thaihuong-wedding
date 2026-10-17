@@ -102,11 +102,15 @@
     ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(function (t) {
       scroller.addEventListener(t, function () { auto = false; }, { passive: true });
     });
-    (function step(now) {
+    function step(now) {
       if (!auto) return;
       scroller.scrollTop += (now - last) * 0.06;
       last = now;
       if (scroller.scrollTop + scroller.clientHeight < scroller.scrollHeight - 1) requestAnimationFrame(step);
-    })(last);
+    }
+    // with the opening screen, start scrolling only once the guest has opened the invitation
+    function begin() { last = performance.now(); requestAnimationFrame(step); }
+    if (document.getElementById('opening-gate')) document.addEventListener('wedding:opened', function () { setTimeout(begin, 800); });
+    else begin();
   }
 })();

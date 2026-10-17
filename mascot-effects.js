@@ -80,7 +80,8 @@
     setTimeout(function () { show(gRun, false); show(bRun, false); busy = false; }, 6300);
   }
   if (!reduced && !window.WEDDING_EDIT_MODE) {
-    setTimeout(runOnce, 2500);
+    if (window.WEDDING_GATE_OPEN === false) document.addEventListener('wedding:opened', function () { setTimeout(runOnce, 2500); });
+    else setTimeout(runOnce, 2500);
     setInterval(runOnce, 40000);
   }
 
