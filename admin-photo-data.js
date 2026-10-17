@@ -53,7 +53,7 @@ window.AdminData = (function () {
       doc.querySelectorAll('#root-page-container .w-full.h-full > [data-node-id]').forEach(function (node) {
         var wrap = node.querySelector('.photo-bg-wrap');
         if (!wrap || wrap.classList.contains('gift-qr-image')) return;
-        var url = cleanUrl(wrap.getAttribute('style'));
+        var url = cleanUrl(wrap.getAttribute('data-lazy-bg') || wrap.getAttribute('style'));
         if (!/^assets\/(album\/large|img)\/.+\.(jpe?g|webp)$/i.test(url)) return;
         var st = node.getAttribute('style'), w = px(st, 'width'), h = px(st, 'height');
         if (!w || !h || w < 60 || h < 60) return;

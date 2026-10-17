@@ -38,6 +38,7 @@
       if (!s || !s.photo) return;
       var url = photoUrl(s.photo), el = slotEl(nid);
       if (!el) return;
+      if (el.hasAttribute('data-lazy-bg') && window.loadLazyBackground) window.loadLazyBackground(el);
       if (!originals[nid]) originals[nid] = { image: el.style.backgroundImage, size: el.style.backgroundSize, pos: el.style.backgroundPosition };
       var y = s.y != null ? s.y : s.pos;
       if (nid === 'letter') {                       // theme 2 envelope letter keeps its CSS framing unless edited

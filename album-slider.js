@@ -76,25 +76,40 @@
     photos.forEach(function (p, i) {
       var slide = el('div', 'album-slide');
       var img = el('img');
-      img.src = large(p);
-      img.loading = 'lazy';
+      img.loading = 'lazy';            // must be set before src, or the browser fetches right away
+      img.decoding = 'async';
+      img.setAttribute('data-src', large(p));
       img.alt = 'Ảnh cưới ' + (i + 1);
       if (p.w > p.h) {
         img.className = 'landscape';
         slide.className += ' blur-bg';
-        slide.style.backgroundImage = 'url(' + thumb(p) + ')';
+        slide.setAttribute('data-bg', 'url(' + thumb(p) + ')');
       }
       slide.appendChild(img);
       slide.onclick = function () { lbOpen(i); };
       track.appendChild(slide);
 
       var t = el('button', 'album-thumb');
-      t.style.backgroundImage = 'url(' + thumb(p) + ')';
+      t.setAttribute('data-bg', 'url(' + thumb(p) + ')');
       t.setAttribute('aria-label', 'Ảnh ' + (i + 1));
       t.onclick = function () { stopAuto(); go(i); };
       thumbs.appendChild(t);
     });
+    if (near) paint();
   }
+
+  // The album sits at the very end of the invitation: only fetch its photos once the guest
+  // scrolls within a few screens of it (the slider images then lazy-load one by one).
+  var near = false;
+  function paint() {
+    Array.prototype.forEach.call(section.querySelectorAll('[data-src]'), function (n) { n.src = n.getAttribute('data-src'); n.removeAttribute('data-src'); });
+    Array.prototype.forEach.call(section.querySelectorAll('[data-bg]'), function (n) { n.style.backgroundImage = n.getAttribute('data-bg'); n.removeAttribute('data-bg'); });
+  }
+  function wake() { if (near) return; near = true; paint(); }
+  var scrollBox = root.closest('.styles_customScroll__X5r6w');
+  if (window.WEDDING_EDIT_MODE || !('IntersectionObserver' in window)) near = true;
+  else new IntersectionObserver(function (entries) { if (entries[0].isIntersecting) wake(); },
+    { root: scrollBox || null, rootMargin: '2000px 0px' }).observe(section);
   render();
 
   // Reorder the album (admin photo layout): known names first in the given order, the rest keep theirs

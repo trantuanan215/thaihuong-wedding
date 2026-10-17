@@ -110,7 +110,7 @@
     }
     // with the opening screen, start scrolling only once the guest has opened the invitation
     function begin() { last = performance.now(); requestAnimationFrame(step); }
-    if (document.getElementById('opening-gate')) document.addEventListener('wedding:opened', function () { setTimeout(begin, 800); });
+    if (window.WEDDING_GATE_OPEN === false) document.addEventListener('wedding:opened', function () { setTimeout(begin, 800); });
     else begin();
   }
 })();
